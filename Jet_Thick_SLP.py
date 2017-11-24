@@ -60,7 +60,10 @@ no17 = np.array([243,0,146])/champ
 # In[ ]:
 
 # Plotting data on a map (Example Gallery) https://matplotlib.org/basemap/users/examples.html
-m = Basemap(projection='merc',             llcrnrlon=-60., urcrnrlon=50.,             llcrnrlat=30.,urcrnrlat=75.,             resolution='l')
+m = Basemap(projection='merc', \
+            llcrnrlon=-80., urcrnrlon=50., \
+            llcrnrlat=15.,urcrnrlat=75., \
+            resolution='l')
 
 
 # In[ ]:
@@ -206,6 +209,7 @@ for day in range(10,29):
 		m.drawcoastlines()
 		m.drawmapboundary()
 		m.drawcountries()
+        m.fillcontinents(color='grey',alpha=0.1)
 #m.fillcontinents(color='grey',alpha=0.1)
 ##
 #

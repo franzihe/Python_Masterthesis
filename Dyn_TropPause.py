@@ -209,14 +209,14 @@ for day in range(10,29):
 		plonsUV, platsUV, u_wind2, v_wind2 = windsel(grbUV,wind_u,wind_v)
 #
 ### PLOT FIGURE
-		fig = plt.figure(figsize=(15,12.5))
+		fig = plt.figure(figsize=(20,16))
 		ax = fig.add_subplot(1,1,1)
 #
 ### Draw Latitude Lines
-		m.drawparallels(np.arange(-90.,120.,10.),labels=[1,0,0,0],fontsize=10,linewidth=0.2)
+		m.drawparallels(np.arange(-90.,120.,10.),labels=[1,0,0,0],fontsize=20,linewidth=0.2)
 #
 ### Draw Longitude Lines
-		m.drawmeridians(np.arange(-180.,180.,10.),labels=[0,0,0,1],fontsize=10,linewidth=0.2)
+		m.drawmeridians(np.arange(-180.,180.,10.),labels=[0,0,0,1],fontsize=20,linewidth=0.2)
 #
 ### Draw Map
 		m.drawcoastlines()
@@ -237,15 +237,17 @@ for day in range(10,29):
 		plt.barbs(plonsUV,platsUV,u_wind2,v_wind2,barbcolor=[no22]) #darkslategray
 #
 ### Add Colorbar
-		cbaxes = fig.add_axes([0.14, 0.05, 0.75, 0.03]) 
+		cbaxes = fig.add_axes([0.14, 0.05, 0.75, 0.45])    #[left, bottom, width, height] 
 		cbar = plt.colorbar(cs,orientation='horizontal',cax = cbaxes)#, cax = cbaxes)#, shrink=0.5)
-		cbar.ax.set_xlabel('potential vorticity')
+		cbar.ax.set_xlabel('potential vorticity',fontsize=22)
+		cbar.ax.tick_params(labelsize=20)
+
 #
 ### Add Textbox
 		ax.text(0.98,0.95, '%s, %s %s %s   %s$\,$UTC' %(calday, day, calmon, year, time),
        		verticalalignment = 'bottom',  horizontalalignment='right',
        		transform = ax.transAxes,
-       		color ='blue', fontsize=16,
+       		color ='blue', fontsize=26,
        		bbox={'facecolor':'white','alpha':1., 'pad':10})
 #
 ### Title
