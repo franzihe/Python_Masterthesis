@@ -1,10 +1,11 @@
+
 # coding: utf-8
 
 # # Dynamic Tropopause Map
 # 
 #  http://www.met.nps.edu/~hmarcham/2012.html#DT
 #  The dynamic tropopause map contains
-#  DT (1.5-PVU surface)
+#  DT (2-PVU surface)
 #     - potential temperature (shaded, K)
 #     - wind barbs (knots)
 #     - 925-850hPa layer-averaged cyclonic relative vorticity (black contours, every 0.5 x 10^-4 s^-1)
@@ -22,6 +23,7 @@
 
 # https://software.ecmwf.int/wiki/display/CKB/How+to+plot+GRIB+files+with+Python+and+matplotlib
 
+# In[50]:
 
 import pygrib
 import matplotlib.pyplot as plt
@@ -31,10 +33,18 @@ import numpy as np
 from scipy import ndimage
 from datetime import date
 import calendar
-#get_ipython().magic('matplotlib inline')
 
 
-# In[ ]:
+
+# In[51]:
+
+year = '2016'
+mon = '12'
+#day = '25'
+#time = '18'
+
+
+# In[52]:
 
 ### define colors for colorbar
 champ = 255
@@ -63,10 +73,7 @@ no21= np.array([255,255,255])/champ
 no22 = np.array([80,80,81])/champ
 
 
-
-m = Basemap(projection='merc',             llcrnrlon=-60., urcrnrlon=50.,             llcrnrlat=30.,urcrnrlat=75.,             resolution='l')
-
-
+# In[53]:
 
 def opengrib(yyyy, mm, dd, tt, pm, path):
     grib = '%s/%s/param_%s_%s%s%s_%s00.grib' % (path,pm,pm,yyyy,mm,dd,tt)
@@ -74,6 +81,7 @@ def opengrib(yyyy, mm, dd, tt, pm, path):
     return(grbs);
 
 
+# In[54]:
 
 def selectgrb(grbs, sN, tOL, lv):
     val = grbs.select()[0]
@@ -82,6 +90,7 @@ def selectgrb(grbs, sN, tOL, lv):
     return(val);
 
 
+# In[55]:
 
 def shiftgrb(grb,val):
     lat,lon = grb.latlons()
@@ -94,46 +103,7 @@ def shiftgrb(grb,val):
     return(plons,plats,val);
 
 
-
-# use only every 20, 35 value from the wind
-### Wind
-def windsel(grbUV,wind_u,wind_v):
-    latUV,lonUV = grbUV.latlons()
-    lonsUV = lonUV[0,:]
-    wind_u,lonsUV = shiftgrid(180.,wind_u,lonsUV,start=False)
-    latsUV = latUV[:,0]
-
-    # use only every 20, 35 value from the wind
-    UVlats = np.zeros((64,),dtype =float)
-    UVlons = np.zeros((74,),dtype =float)
-    u_wind = np.zeros((64,2560), dtype = float)
-    v_wind = np.zeros((64,2560), dtype = float)
-    u_wind2 = np.zeros((64,74),dtype = float)
-    v_wind2 = np.zeros((64,74),dtype = float)
-
-    
-
-    for i in range(0,64):
-        UVlats[i] = latsUV[i*20]
-        u_wind[i,:] = wind_u[i*20,:]
-        v_wind[i,:] = wind_v[i*20,:]
-
-    for k in range(0,74):
-        UVlons[k] = lonsUV[k*35]   
-        u_wind2[:,k] = u_wind[:,k*35]
-        v_wind2[:,k] = v_wind[:,k*35]
-    
-    UVlons,UVlats = np.meshgrid(UVlons,UVlats)
-    plonsUV, platsUV = m(UVlons,UVlats)
-    return(plonsUV,platsUV,u_wind2,v_wind2);
-
-
-
-year = '2016'
-mon = '12'
-#day = '11'
-#time = '06'
-
+# In[56]:
 for day in range(10,29):
 	day = str(day)
 	for time in range(0,24,6):
@@ -142,21 +112,87 @@ for day in range(10,29):
 		elif time == 6:
 			time = '06'
 		time = str(time)
-		
+
+### OPEN FILES
 		path = '../NORSTORE/SCA/pv2000'
-### Potential temperature
+
+### PT
 		parameter = 'pt'
 		grbsPT = opengrib(yyyy = year, mm = mon, dd = day, tt = time, pm = parameter, path = path)
-#	
+
 ### Wind
 		parameter = 'uv'
 		grbsUV = opengrib(yyyy = year, mm = mon, dd = day, tt = time, pm = parameter, path = path)
-	
+
 ### Vorticity (relative)
 		path = '../NORSTORE/SCA/pl'
 		parameter = 'vo'
 		grbsVO = opengrib(yyyy = year, mm = mon, dd = day, tt = time, pm = parameter, path = path)
 #
+
+
+# In[57]:
+
+### GET FILE DATA
+		tOL = 'potentialVorticity'
+		lv = 2000
+### PT
+		sN = 'pt'
+		grbPT = grbsPT.select()[0]
+		PT = selectgrb(grbsPT, sN, tOL, lv)
+
+### Wind 
+# U component of wind
+		sN = 'u'
+		grbUV = grbsUV.select()[0]
+		wind_u = selectgrb(grbsUV, sN, tOL, lv)
+# V component of wind
+		sN = 'v'
+		wind_v = selectgrb(grbsUV, sN, tOL, lv)
+
+### Vorticity (relative)
+# 925 hPa
+		sN = 'vo'
+		tOL = 'isobaricInhPa'
+		grbVO = grbsVO.select()[0]
+		lv = [850, 900, 925]
+
+		RV = dict()
+		for i in lv:
+			RV[i] = selectgrb(grbsVO, sN, tOL, i)
+
+		grbsPT.close() # close the grib file.
+		grbsUV.close() # close the grib file.
+		grbsVO.close() # close the grib file.
+# In[58]:
+
+### calculating 925-850 hPa layer-averaged cyclonic relative vorticity (every 0.5 x10^-4 s-1)
+# all three layers divided by number of layers
+		rel_vort = (RV[850]+RV[900]+RV[925])/3          # arithmetric mean
+		rel_vort = ndimage.filters.gaussian_filter(rel_vort, sigma = 2)
+
+
+# In[75]:
+		
+# Plotting data on a map (Example Gallery) https://matplotlib.org/basemap/users/examples.html
+		m = Basemap(projection='merc',             llcrnrlon=-80., urcrnrlon=50.,             llcrnrlat=15.,urcrnrlat=75.,             resolution='l')
+
+
+# In[60]:
+
+### Latitudes, Longitudes and shiftgrid
+
+
+		plonsPT,platsPT, PT = shiftgrb(grbPT,PT)
+		plonsVO,platsVO, rel_vort = shiftgrb(grbVO,rel_vort)
+		plonsU,platsU, wind_u = shiftgrb(grbUV,wind_u)
+		plonsV,platsV, wind_v = shiftgrb(grbUV,wind_v)
+
+
+
+
+# In[61]:
+
 ### Dates for plotting
 		yr = int(year)
 		mo = int(mon)
@@ -164,102 +200,91 @@ for day in range(10,29):
 		my_date = date(yr,mo,dy)
 		calday = calendar.day_name[my_date.weekday()]
 		calmon = calendar.month_abbr[mo]
-#
-		tOL = 'potentialVorticity'
-		lv = 2000
-### Potential temperature
-		sN = 'pt'
-		grbPT = grbsPT.select()[0]
-		PT = selectgrb(grbsPT, sN, tOL, lv)
-#
-### Wind 
-# U component of wind
-		sN = 'u'
-		grbUV = grbsUV.select()[0]
-		wind_u = selectgrb(grbsUV, sN, tOL, lv)
 
-# V component of wind
-		sN = 'v'
-		wind_v = selectgrb(grbsUV, sN, tOL, lv)
-#
-### Vorticity (relative)
-# 925 hPa
-		sN = 'vo'
-		tOL = 'isobaricInhPa'
-		lv = 925
-		grbVO = grbsVO.select()[0]
-		RV925 = selectgrb(grbsVO, sN, tOL, lv)
-#
-# 900 hPa
-		lv = 900
-		RV900 = selectgrb(grbsVO, sN, tOL, lv)
-#
-# 850 hPa
-		lv = 850
-		RV850 = selectgrb(grbsVO, sN, tOL, lv)
-#
-### calculating 925-850 hPa layer-averaged cyclonic relative vorticity (every 0.5 x10^-4 s-1)
-# all three layers divided by number of layers
-		rel_vort = (RV925+RV900+RV850)/3                         # arithmetric mean
-		rel_vort = ndimage.filters.gaussian_filter(rel_vort, sigma = 2)
-#
-		plonsPT, platsPT, PT = shiftgrb(grbPT,PT)
-		plonsVO, platsVO, rel_vort = shiftgrb(grbVO,rel_vort)
-#
-		plonsUV, platsUV, u_wind2, v_wind2 = windsel(grbUV,wind_u,wind_v)
-#
+
+# ### Plotting data on a map (Example Gallery) https://matplotlib.org/basemap/users/examples.html
+# 
+# 
+# 
+
+# In[76]:
+
 ### PLOT FIGURE
 		fig = plt.figure(figsize=(20,16))
 		ax = fig.add_subplot(1,1,1)
-#
+
+
+
 ### Draw Latitude Lines
 		m.drawparallels(np.arange(-90.,120.,10.),labels=[1,0,0,0],fontsize=20,linewidth=0.2)
-#
+
+
 ### Draw Longitude Lines
 		m.drawmeridians(np.arange(-180.,180.,10.),labels=[0,0,0,1],fontsize=20,linewidth=0.2)
-#
+
+
 ### Draw Map
 		m.drawcoastlines()
 		m.drawmapboundary()
 		m.drawcountries()
-#
+
+
 ### Plot contour lines for pot. temp and fill
 		levels = np.arange(258,390,6)
 		cmap = colors.ListedColormap([no1, no2, no3, no4, no5, no6, no7, no8, no9, no10,                               no11, no12, no13, no14, no15, no16, no17, no18, no19, no20,                              no21])
 		norm = colors.BoundaryNorm(boundaries = levels, ncolors=cmap.N)
 		cs = m.contourf(plonsPT,platsPT,PT,levels,norm=norm,cmap=cmap)
-#
+
+
+
+
 ### Plot contour lines for layer averaged rel. vort 925-850 hPa
 		thickness = np.arange(.5*10**(-4), 6*10**(-4),.5*10**(-4))
 		CVO = m.contour(plonsVO,platsVO,rel_vort,thickness,colors='k')
-#
-### plot wind barbs
-		plt.barbs(plonsUV,platsUV,u_wind2,v_wind2,barbcolor=[no22]) #darkslategray
-#
-### Add Colorbar
-		cbaxes = fig.add_axes([0.14, 0.05, 0.75, 0.45])    #[left, bottom, width, height] 
-		cbar = plt.colorbar(cs,orientation='horizontal',cax = cbaxes)#, cax = cbaxes)#, shrink=0.5)
-		cbar.ax.set_xlabel('potential vorticity',fontsize=22)
-		cbar.ax.tick_params(labelsize=20)
 
-#
+### plot wind barbs
+#m.barbs(plonsUV,platsUV,u_wind,v_wind,barbcolor=[no22]) #darkslategray
+# use only every 20, 35 value from the wind
+		m.barbs(plonsU[::20,::35],platsU[::20,::35],wind_u[::20,::35],wind_v[::20,::35],barbcolor=[no22])
+
+### Add Colorbar
+		cbaxes = fig.add_axes([0.14, 0.05, .75, .045] )   #[left, bottom, width, height] 
+		cbar = plt.colorbar(cs,orientation='horizontal',cax = cbaxes)#, cax = cbaxes)#, shrink=0.5)
+		cbar.ax.set_xlabel('$\Theta$ [K]',fontsize=22)
+		cbar.ax.set_xticklabels(['','276', '294', '312', '330', '348', '366', ''])  # horizontal colorbar
+
+		cbar.ax.tick_params(labelsize=20) 
+#cbar.ax.set_aspect(50)
+
+
 ### Add Textbox
-		ax.text(0.98,0.95, '%s, %s %s %s   %s$\,$UTC' %(calday, day, calmon, year, time),
+		ax.text(0.98,0.94, '%s, %s %s %s   %s$\,$UTC' %(calday, day, calmon, year, time),
        		verticalalignment = 'bottom',  horizontalalignment='right',
        		transform = ax.transAxes,
        		color ='blue', fontsize=26,
        		bbox={'facecolor':'white','alpha':1., 'pad':10})
-#
+
+
 ### Title
-#		fig.suptitle('Dynamic Tropopause Map at 2 PVU', fontsize=16, fontweight='bold') 
-#		ax.set_title('wind barbs (m$\,$s$^{-1}$), \n potential temperature (K, shaded according to colorbar), \n 925-850$\,$hPa layer-averaged cyclonic relative vorticity (black contours, every 0.5 x 10$^{-4}$$\,$s$^{-1}$) \n',             fontsize=13)
-#
+#fig.suptitle('Dynamic Tropopause Map at 2 PVU', fontsize=16, fontweight='bold') 
+#ax.set_title('wind barbs (m$\,$s$^{-1}$), \n \
+#potential temperature (K, shaded according to colorbar), \n \
+#925-850$\,$hPa layer-averaged cyclonic relative vorticity (black contours, every 0.5 x 10$^{-4}$$\,$s$^{-1}$) \n', \
+#            fontsize=13)
+
+
+
 ### Save
 		plt.savefig('../synoptic_figs/DynTropo/%s%s%s_%s.png' % (year, mon, day,time))
 ## with header
-#		plt.savefig('../synoptic_figs/DynTropo/%s%s%s_%s_header.png' % (year, mon, day,time))
+#plt.savefig('../synoptic_figs/DynTropo/%s%s%s_%s_header.png' % (year, mon, day,time))
 #plt.savefig('dyn_tropo.png')     # Set the output file name
 
-	#plt.show()
-		plt.close(fig)
+#plt.show()
+		plt.close()
+
+
+# In[ ]:
+
+
 
