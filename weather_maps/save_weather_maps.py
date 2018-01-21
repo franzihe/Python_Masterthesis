@@ -4,7 +4,6 @@
 # In[ ]:
 
 import sys
-sys.path.append('/Volumes/SANDISK128/Documents/Thesis/Python/weather_maps')
 sys.path.append('/Volumes/SANDISK128/Documents/Thesis/Python/')
 import numpy as np
 import matplotlib.pyplot as plt

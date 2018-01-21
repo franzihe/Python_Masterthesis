@@ -28,7 +28,7 @@ def create_basemap():
 
 ### PLOT FIGURE
 def create_figure(m,fillcon):
-    fig = plt.figure(figsize = (20,14.15))
+    fig = plt.figure(figsize = (20,16))
     ax = fig.add_subplot(1,1,1)
 
 ### Draw Latitude Lines
@@ -395,10 +395,12 @@ def plot_JTHMSPL(m, plonsPW, platsPW, PW,
 ### Add two Colorbars
     lev_tick1 = []
     lev_tick2 = []
-    label1 = label1 = 'U$_250\,hPa$ [m$\,$s$^{-1}$]'
-    label2 = 'TCWV [mm]'
-    xticks1 = ['', '50', '60', '70', '80', '90', '100']
-    xticks2 = ['', '22', '30', '38', '46', '54', '62']
+    
+    label1 = 'TCWV [mm]'
+    label2 = 'U$_{250\,hPa}$ [m$\,$s$^{-1}$]'
+    
+    xticks1 = ['', '22', '30', '38', '46', '54', '62']
+    xticks2 = ['', '50', '60', '70', '80', '90', '100']
     add_colorbar_two(fig, cs1, cs2,  lev_tick1, lev_tick2, label1, label2, xticks1, xticks2)
 
 
