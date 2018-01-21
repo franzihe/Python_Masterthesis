@@ -165,7 +165,7 @@ def plot_vertical_EM(lead_time, model_level,result,var_name, fig_name, title,sfi
     ax8.set_ylabel('height')
     
     if sfig == 1:
-    	SF.save_figure_landscape(directory, figure_name, form)
+    	SF.save_figure_landscape_a4(directory, figure_name, form)
     else:
         plt.show()
         
