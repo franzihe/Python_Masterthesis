@@ -6,7 +6,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
-
+import save_fig as SF
 
 
 # In[2]:
@@ -22,7 +22,7 @@ vert_col = np.array([197,197,197])/champ    # vertical line for day marker
 
 # In[3]:
 
-def spaghetti_sfc(lead_time_sfc,SA_0m_filled,SA_0m_masked,var_name, title,fig_name,sfig):
+def spaghetti_sfc(lead_time_sfc,SA_0m_filled,SA_0m_masked,var_name, title,sfig,directory, figure_name, form):
     lead_time = dict()
     variable_to_plot = dict()
     for ens_memb in range(0,10):
@@ -63,10 +63,12 @@ def spaghetti_sfc(lead_time_sfc,SA_0m_filled,SA_0m_masked,var_name, title,fig_na
     
     ax.set_title(title, fontsize=30, color =blue )
     if sfig == 1:
-        plt.savefig('../MEPS_fig/%s/%s' %(var_name,fig_name))
+    	SF.save_figure_landscape(directory, figure_name, form)
+    else:
+        plt.show()
+        
         
 #    plt.show()
-    plt.close()
 
 
 # In[ ]:

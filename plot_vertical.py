@@ -20,7 +20,7 @@ blue = np.array([1,74,159])/champ           # for the date
 
 # In[3]:
 
-def plot_vertical_EM(lead_time, model_level,result,var_name, fig_name, title,sfig):
+def plot_vertical_EM(lead_time, model_level,result,var_name, fig_name, title,sfig,directory, figure_name, form):
     # create meshgrid for contourf
     x = lead_time
     y = model_level
@@ -165,12 +165,14 @@ def plot_vertical_EM(lead_time, model_level,result,var_name, fig_name, title,sfi
     ax8.set_ylabel('height')
     
     if sfig == 1:
-        plt.savefig('../MEPS_fig/%s/%s' %(var_name,fig_name))
-
+    	SF.save_figure_landscape(directory, figure_name, form)
+    else:
+        plt.show()
+        
 
 
 #    plt.show()
-    plt.close()
+#    plt.close()
 
 
 # In[ ]:
