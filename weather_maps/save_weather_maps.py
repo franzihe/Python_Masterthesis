@@ -51,7 +51,7 @@ savefigure = 1
 
 # In[ ]:
 
-for day in range(10,29):
+for day in range(16,29):
     day = str(day)
     for time in range(0,24,6):
         if time ==0:
