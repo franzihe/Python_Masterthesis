@@ -30,7 +30,17 @@ def interpolate_gaps(values, limit=None):
 
 
 # In[ ]:
-
+def fill_values(variable, ml, ens_emb):
+    for ml in range(0,1):
+        if np.ma.is_masked(variable[:,ml,ens_memb,y[0],x[0]]):
+            mask = np.ma.getmaskarray(variable[:,ml,ens_memb,y[0],x[0]])        
+            marr = np.ma.array(variable[:,ml,ens_memb,y[0],x[0]], mask = mask, fill_value = np.nan)
+            F = marr.filled(np.nan)
+            intF = interpolate_gaps(F, limit = 2)
+            filled.append(intF) 
+        else:
+            filled = variable[:,ml,ens_memb,y[0],x[0]] 
+              
 # fill array with nan and interpolate if limit of nan is below 2
 # for values at surface
 def filled_val_sfc(temp_0m,ens_memb):
