@@ -40,6 +40,21 @@ def fill_values(variable, ml, ens_emb):
             filled.append(intF) 
         else:
             filled = variable[:,ml,ens_memb,y[0],x[0]] 
+            
+def mask_array(variable,ens_memb,y,x):
+    if np.ma.is_masked(variable[:,:,ens_memb,y[0],x[0]]):
+        mask = np.ma.getmaskarray(variable[:,:,ens_memb,y[0],x[0]])  
+        fill_value = np.nan
+        marr = np.ma.array(variable[:,:,ens_memb,y[0],x[0]], mask = mask, fill_value = fill_value)
+        dtype = marr.filled().dtype
+        filled = marr.filled()
+    else:
+        fill_value = np.nan
+        marr = variable[:,:,ens_memb,y[0],x[0]]
+        filled = marr
+        dtype = marr.dtype
+    return(filled, dtype)
+    
               
 # fill array with nan and interpolate if limit of nan is below 2
 # for values at surface
@@ -72,3 +87,11 @@ def filled_val_ml(SA_lev,ens_memb):
             filled[:,ml] = SA_lev[:,ml,0,0,0]
     return(filled)
 
+def fill_nan(var):
+    if np.ma.is_masked(var):
+        mask = np.ma.getmaskarray(var)
+        marr = np.ma.array(var, mask = mask, fill_value = np.nan)
+        x = marr.filled(np.nan)
+    else:
+        x = var
+    return(x);
