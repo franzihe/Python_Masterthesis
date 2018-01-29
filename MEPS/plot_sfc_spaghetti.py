@@ -6,7 +6,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
-import save_fig as SF
 
 
 # In[2]:
@@ -72,6 +71,41 @@ def spaghetti_sfc(lead_time_sfc,SA_0m_filled,SA_0m_masked,var_name, title,sfig,d
 
 
 # In[ ]:
+def spaghetti_sfc2(lead_time_sfc, variable, title, sfig, directory, figure_name, form):
+    fig = plt.figure(figsize=(20,7))
+    ax = plt.axes()
+# Vertical line to show end of day
+    ax.axvline(24,color = vert_col, linewidth = 3)
+    ax.axvline(48,color = vert_col, linewidth = 3)
+    for ens_memb in range(1,10):
+        ax.plot(lead_time_sfc[ens_memb], variable[ens_memb], color = memb_col,
+           linestyle = '-',label = 'EM%s' %(ens_memb))
+    ax.plot(lead_time_sfc[0], variable[0], 'k', linewidth = 4, label = 'best guess') 
+### fine tuning
+#plt.legend()
+    ax.grid()
 
+# yaxis
+    ax.set_ylabel('RR [mm]', fontsize = 30)
+    ax.set_ylim(0,70)
+    T = np.arange(0,70,10)
+    ax.set_yticks(T)
+    ax.set_yticklabels(T,fontsize = 20)
+
+# xaxis
+    a = lead_time_sfc[0][0:35]
+    ax.set_xlim(0,35)
+    ax.set_xlabel('lead time', fontsize = 30)
+    ax.set_xticks(a[0::5])
+    ax.set_xticklabels(a[0::5], fontsize = 20)
+# title
+    ax.set_title(title, fontsize=30, color =blue )
+        
+
+    if sfig == 1:
+        SF.save_figure_landscape(directory, figure_name, form)
+    else:
+        plt.show()
+        
 
 
