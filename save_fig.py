@@ -16,7 +16,7 @@ def save_figure_landscape_a4(directory, figure_name, form):
 
 # In[ ]:
 
-def save_figure_portrait(directory, figure_name):
+def save_figure_portrait(directory, figure_name,form):
     plt.savefig('%s/%s' % (directory, figure_name), orientation = 'portrait',
            papertype = 'a4', format = form )
 
