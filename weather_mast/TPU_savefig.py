@@ -58,13 +58,13 @@ def plot_TPU(fig,  min_60val, df_val, df_60,
     
     
     # labeling Precip
-    ax1.set_ylabel('Accumulation',fontsize = yfont)
+    ax1.set_ylabel('Accumulation [mm]',fontsize = yfont)
     ax1.set_yticklabels(prec_tick,fontsize = tickfont)
     ax1.set_xticks(UTC)
     ax1.set_xticklabels(timer, fontsize=tickfont)
     ax1.set_xlim([0,24*1/60])
     ax1.set_ylim([0.,np.nanmax(df_60)+1])
-    ax1.legend(loc='upper right', fontsize=legenfont )
+    ax1.legend(loc='upper left', fontsize=legenfont )
     plt.setp(ax1.get_yticklabels(), visible=False)
 
     # labeling Temp
@@ -72,7 +72,7 @@ def plot_TPU(fig,  min_60val, df_val, df_60,
     ax2.set_ylabel('Temperature [$^\circ$C]',fontsize = yfont)
     ax2.tick_params(axis='both', which= 'major', labelsize=tickfont)
 ##ax2.set_xticklabels(timer, fontsize=20)
-    ax2.legend(loc='upper left', fontsize = legenfont )
+    ax2.legend(loc='upper right', fontsize = legenfont )
 #ax2.spines['right'].set_color('r')
 #ax2.yaxis.label.set_color('r')
 #ax2.tick_params(axis='y',colors='r')
