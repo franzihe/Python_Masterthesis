@@ -69,7 +69,7 @@ def findSubsetIndices(min_lat,max_lat,min_lon,max_lon,lats,lons):
 # In[9]:
 
 def makeMap(lonStart,lonEnd,latStart,latEnd,name,stLon,stLat,zoom):
-    fig = plt.figure(figsize=(8,10))
+    fig = plt.figure(figsize=(9,8))
     """Get the etopo2 data"""
     #etopo1name='ETOPO1_Ice_g_gmt4.grd'
     etopo1name = 'ETOPO1_Bed_g_gmt4.grd'
@@ -101,8 +101,8 @@ def makeMap(lonStart,lonEnd,latStart,latEnd,name,stLon,stLat,zoom):
     map.drawcoastlines()
     map.drawcountries()
     map.drawmapboundary(fill_color='gainsboro')
-    map.drawmeridians(np.arange(lons.min(),lons.max(),10),labels=[0,0,0,1],fontsize=18)
-    map.drawparallels(np.arange(lats.min(),lats.max(),4),labels=[1,0,0,0],fontsize=18)
+    map.drawmeridians(np.arange(lons.min(),lons.max(),10),labels=[0,0,0,1],fontsize=16)
+    map.drawparallels(np.arange(lats.min(),lats.max(),4),labels=[1,0,0,0],fontsize=16)
     #map.etopo()
 
 
@@ -161,11 +161,15 @@ def makeMap(lonStart,lonEnd,latStart,latEnd,name,stLon,stLat,zoom):
 
 
     ### Add Colorbar
-    cbaxes = fig.add_axes([0.14, 0.03, .75, .06] )   #[left, bottom, width, height] 
-    cbar = plt.colorbar(CS1,orientation='horizontal',cax = cbaxes,ticks=levels[::2])#, cax = cbaxes)#, shrink=0.5)
-    cbar.ax.set_xlabel('elevation [m]',fontsize = 20)
-    cbar.ax.tick_params(labelsize=18)
-
+#    cbaxes = fig.add_axes([0.14, 0.03, .75, .006] )   #[left, bottom, width, height] 
+    cbaxes = fig.add_axes([0.83, 0.15, .035, 0.7] )   #[left, bottom, width, height] 
+    cbar = plt.colorbar(CS1,orientation='vertical',cax = cbaxes,ticks=levels[::2])#, cax = cbaxes)#, shrink=0.5)
+    cbar.ax.set_ylabel('elevation [m]',fontsize = 18)
+    cbar.ax.tick_params(labelsize=16)
+    
+    
+    # tight layout
+#    plt.tight_layout()
 
 
 
