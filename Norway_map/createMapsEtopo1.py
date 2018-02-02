@@ -101,8 +101,8 @@ def makeMap(lonStart,lonEnd,latStart,latEnd,name,stLon,stLat,zoom):
     map.drawcoastlines()
     map.drawcountries()
     map.drawmapboundary(fill_color='gainsboro')
-    map.drawmeridians(np.arange(lons.min(),lons.max(),10),labels=[0,0,0,1])
-    map.drawparallels(np.arange(lats.min(),lats.max(),4),labels=[1,0,0,0])
+    map.drawmeridians(np.arange(lons.min(),lons.max(),10),labels=[0,0,0,1],fontsize=18)
+    map.drawparallels(np.arange(lats.min(),lats.max(),4),labels=[1,0,0,0],fontsize=18)
     #map.etopo()
 
 
@@ -138,17 +138,19 @@ def makeMap(lonStart,lonEnd,latStart,latEnd,name,stLon,stLat,zoom):
      #       ha='left',va='bottom',color='orange')
 
 
-
+    if zoom != 'zoom':
+    
     ### plot MEPS area
-    for i in range(0,lato.shape[0],12):
-        xs, ys = map(lono[i], lato[i])
-        map.plot(xs,ys, color = 'orange', marker = 'o', markersize = 10, linestyle = '-', linewidth = 10)
-    for i in range(0,lato2.shape[0],12):
-        xs2, ys2 = map(lono2[i], lato2[i])
-        map.plot(xs2,ys2, color = 'orange', marker = 'o', markersize = 10, linestyle = '-', linewidth = 10)
+        for i in range(0,lato.shape[0],12):
+            xs, ys = map(lono[i], lato[i])
+            map.plot(xs,ys, color = 'orange', marker = 'o', markersize = 10, linestyle = '-', linewidth = 10)
+        for i in range(0,lato2.shape[0],12):
+            xs2, ys2 = map(lono2[i], lato2[i])
+            map.plot(xs2,ys2, color = 'orange', marker = 'o', markersize = 10, linestyle = '-', linewidth = 10)
 
-    xs, ys = map(lono[739], lato[739])
-    map.plot(xs,ys, color = 'orange', marker ='o', markersize = 10, linestyle = '-', linewidth = 10)
+        xs, ys = map(lono[739], lato[739])
+        map.plot(xs,ys, color = 'orange', marker ='o', markersize = 10, linestyle = '-', linewidth = 10, label = 'MEPS domain')
+        lgd = plt.legend(loc='lower left',fontsize=18)
 
     #plt.title('Area %s'%(name))
     #plotfile='figures/map_'+str(name)+'.pdf'
@@ -160,8 +162,9 @@ def makeMap(lonStart,lonEnd,latStart,latEnd,name,stLon,stLat,zoom):
 
     ### Add Colorbar
     cbaxes = fig.add_axes([0.14, 0.03, .75, .06] )   #[left, bottom, width, height] 
-    cbar = plt.colorbar(CS1,orientation='horizontal',cax = cbaxes,ticks=levels)#, cax = cbaxes)#, shrink=0.5)
-    
+    cbar = plt.colorbar(CS1,orientation='horizontal',cax = cbaxes,ticks=levels[::2])#, cax = cbaxes)#, shrink=0.5)
+    cbar.ax.set_xlabel('elevation [m]',fontsize = 20)
+    cbar.ax.tick_params(labelsize=18)
 
 
 
