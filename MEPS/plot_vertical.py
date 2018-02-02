@@ -54,6 +54,39 @@ def dates_plt(time_ml):
     else:
         xt
     return(xt);
+    
+def dates_plt_18(time_ml):
+    dt = []
+    dd = []
+    dm = []
+    dy = []
+    for i in range(0,time_ml.shape[0],6):
+        dt.append(datetime.datetime.utcfromtimestamp(time_ml[i]).hour)
+        dd.append(datetime.datetime.utcfromtimestamp(time_ml[i]).day)
+        dm.append(datetime.datetime.utcfromtimestamp(time_ml[i]).month)
+        dy.append(datetime.datetime.utcfromtimestamp(time_ml[i]).year)
+        
+
+    xt = []
+    for i in range(0,1):
+        xt.append('%s' %dt[i])
+    t1 = '%s-%s-%s' %(dy[1],dm[1],dd[1])
+    xt.append(t1)
+    for i in range(2,5):
+         xt.append('%s' %dt[i])
+    t2 = '%s-%s-%s' %(dy[5],dm[5],dd[5])
+    xt.append(t2)
+    for i in range(6,9):
+        xt.append('%s' %dt[i])
+    if np.asarray(dt).size >9:
+        t3 = '%s-%s-%s' %(dy[9],dm[9],dd[9])
+        xt.append(t3)
+    elif np.asarray(dt).size >10:
+        for i in range(10,12):
+            xt.append('%s' %dt[i])
+    else:
+        xt
+    return(xt);
 
 levels = np.arange(0,0.6,0.02)   # snowfall amount not divided by thickness
 #levels = np.arange(0,9.5,0.32)     # snowfall amount divided by thickness

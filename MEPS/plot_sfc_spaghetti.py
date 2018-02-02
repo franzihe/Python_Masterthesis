@@ -6,6 +6,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
+import plot_vertical as pvert 
 
 
 # In[2]:
@@ -15,97 +16,58 @@ champ = 255.
 blue = np.array([1,74,159])/champ           # for the date
 memb_col = np.array([99,99,99])/champ       # ensemble member color
 vert_col = np.array([197,197,197])/champ    # vertical line for day marker
+dofe = np.array([64,180,233])/champ         # color for double fence measurement
 
 
-
-
-# In[3]:
-
-def spaghetti_sfc(lead_time_sfc,SA_0m_filled,SA_0m_masked,var_name, title,sfig,directory, figure_name, form):
-    lead_time = dict()
-    variable_to_plot = dict()
-    for ens_memb in range(0,10):
-        lead_time[ens_memb] = lead_time_sfc[SA_0m_masked[ens_memb]]
-        variable_to_plot[ens_memb] = SA_0m_filled[ens_memb][SA_0m_masked[ens_memb]]
-
-### Create figure of var_name at surface
-    fig = plt.figure(figsize =(20,7))
-    ax = plt.axes()
-# Vertical line to show end of day
-    ax.axvline(24,color = vert_col, linewidth = 3)
-    ax.axvline(48,color = vert_col, linewidth = 3)
-
-# Plot only values where not NAN 
-    for ens_memb in range(1,10):
-        ax.plot(lead_time[ens_memb],variable_to_plot[ens_memb],color = memb_col, 
-            linestyle = '-',label = 'EM%s' %(ens_memb))
-        ax.plot(lead_time[0],variable_to_plot[0],'k', linewidth = 4, label = 'best guess') 
-
-### fine tuning
-#plt.legend()
-    ax.grid()
-
-# yaxis
-    ax.set_ylabel(var_name, fontsize = 30)
-#ax.set_ylim(-10,3.5)
-##T = np.arange(0,30,5)
-#ax.set_yticks(T)
-#ax.set_yticklabels(T,fontsize = 20)
-
-# xaxis
-    ax.set_xlim(0,66)
-    ax.set_xlabel('lead time', fontsize = 30)
-    ax.set_xticks(lead_time_sfc[0::6])
-    ax.set_xticklabels(lead_time_sfc[0::6], fontsize = 20)
-
-# title
-    
-    ax.set_title(title, fontsize=30, color =blue )
-    if sfig == 1:
-    	SF.save_figure_landscape(directory, figure_name, form)
-    else:
-        plt.show()
-        
-        
-#    plt.show()
 
 
 # In[ ]:
-def spaghetti_sfc2(lead_time_sfc, variable, title, sfig, directory, figure_name, form):
+def spaghetti_sfc_dofe(lead_time_sfc, variable, dofence_60, time_sfc, Xmax, day, var_name, unit, title, tid, doublefence):
     fig = plt.figure(figsize=(20,7))
     ax = plt.axes()
 # Vertical line to show end of day
+    ax.axvline(0,color = vert_col, linewidth = 3)
     ax.axvline(24,color = vert_col, linewidth = 3)
     ax.axvline(48,color = vert_col, linewidth = 3)
-    for ens_memb in range(1,10):
-        ax.plot(lead_time_sfc[ens_memb], variable[ens_memb], color = memb_col,
-           linestyle = '-',label = 'EM%s' %(ens_memb))
-    ax.plot(lead_time_sfc[0], variable[0], 'k', linewidth = 4, label = 'best guess') 
+    if doublefence == 1:
+## double fence    
+        plt.plot(np.arange(0,Xmax), np.asarray(dofence_60)[:,(int(day)-1)], marker = 'H', markersize=20, 
+            color = dofe, linestyle = 'None', label = 'double fence')
+## ensemble member         
+    for ens_memb in range(2,10):
+        ax.plot(lead_time_sfc[ens_memb][:Xmax], variable[ens_memb][:Xmax], color = memb_col,
+           linestyle = '-', label='_nolegend_')
+    ax.plot(lead_time_sfc[1][:Xmax], variable[1][:Xmax], color = memb_col,
+           linestyle = '-', label = 'ensemble member')
+    ax.plot(lead_time_sfc[0][:Xmax], variable[0][:Xmax], 'k', linewidth = 4, label = 'best guess')
 ### fine tuning
-#plt.legend()
+    lgd = plt.legend(loc='upper left',fontsize=26)
     ax.grid()
 
 # yaxis
-    ax.set_ylabel('RR [mm]', fontsize = 30)
-    ax.set_ylim(0,70)
-    T = np.arange(0,70,10)
+    ax.set_ylabel('%s %s %s' %(var_name[0], var_name[1], unit), fontsize = 30)
+    ax.set_ylim(-0.5,80)
+    T = np.arange(0,90,10)
     ax.set_yticks(T)
-    ax.set_yticklabels(T,fontsize = 20)
+    ax.set_yticklabels(T,fontsize = 22)
 
 # xaxis
-    a = lead_time_sfc[0][0:35]
-    ax.set_xlim(0,35)
-    ax.set_xlabel('lead time', fontsize = 30)
-    ax.set_xticks(a[0::5])
-    ax.set_xticklabels(a[0::5], fontsize = 20)
+    a = lead_time_sfc[0][0:48]
+    ax.set_xlim(-0.5,Xmax+0.5)
+    ax.set_xlabel('time', fontsize = 30)
+    ax.set_xticks(np.arange(0,Xmax+1,6))
+    if tid == '18':
+        dates = pvert.dates_plt_18(time_sfc)
+    if tid == '00':
+        dates = pvert.dates_plt(time_sfc)
+    ax.set_xticklabels(dates, rotation = 25, fontsize = 22)
 # title
     ax.set_title(title, fontsize=30, color =blue )
+# tight layout
+    plt.tight_layout()
         
 
-    if sfig == 1:
-        SF.save_figure_landscape(directory, figure_name, form)
-    else:
-        plt.show()
+    
         
 
 
