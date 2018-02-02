@@ -31,7 +31,7 @@ def find_station_yx(latitude, longitude, stn_lat, stn_lon):
 def get_thickness(surface_air_pressure, 
                   air_temperature_0m, air_temperature_ml,
                   ap, b,
-                 ens_memb,y,x,):
+                 ens_memb,y,x):
     ### Calculuat the thickness of each layer in m or geop height
     
 ### 1) Connect model levels and surface values
