@@ -62,7 +62,7 @@ def plot_skewT(T, Td, z, p, u, v, text, sfig, filename):
       #draw_wind_line(axes)
         for i in np.arange(0,len(z),2):
             if (p[i] > pt_plot):
-                plt.barbs(Tmin+4,p[i],u[i],v[i], length=5, linewidth=.5)
+                plt.barbs(Tmin+4,p[i],u[i],v[i], length=8, linewidth=2.)
                 
 # legend
     ax5 = fig.add_subplot(1,1,1)
@@ -79,7 +79,9 @@ def plot_skewT(T, Td, z, p, u, v, text, sfig, filename):
 # Adjust plot margins.
     plt.subplots_adjust(left=0.03, bottom=0.03, right=0.97, top=0.97, wspace=0.12, hspace=0.12)
 
-
+# set ylimit to 10000
+#    ax1.set_ylim([0,10000]
+#    ax4.set_ylim([0,10000]
 # set day
     ax1.text(0.98,0.96, text,     # x, y
             verticalalignment = 'bottom',  horizontalalignment='right',

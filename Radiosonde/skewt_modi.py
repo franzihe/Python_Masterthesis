@@ -146,7 +146,8 @@ Tmax = 40.0
 """Sets the right boundary of the plot. Temperature at 1000 mb (C)"""
 pbot = 105000.0
 """Sets the bottom boundary of the plot. Pressure (Pa)"""
-ptop = 10000.0
+#ptop = 10000.0
+ptop = 30000.0
 """Sets the top boundary of the plot. Pressure (Pa)"""
 
 ## Values below used for plotting 
@@ -784,7 +785,7 @@ def plot_legend(axes):
 def plot_wind(axes, z, p, u, v, x=0):  
   for i in np.arange(0,len(z),1):
     if (p[i] > pt_plot):
-      plt.barbs(x,p[i],u[i],v[i], length=5, linewidth=.5)
+      plt.barbs(x,p[i],u[i],v[i], length=8, linewidth=2)
 
   
 def plot_sounding(axes, z, th, p, qv, u = None, v = None):
@@ -851,12 +852,12 @@ def plot_sounding(axes, z, th, p, qv, u = None, v = None):
       #draw_wind_line(axes)
       for i in np.arange(0,len(z),2):
           if (p[i] > pt_plot):
-              plt.barbs(Tmin+4,p[i],u[i],v[i], length=5, linewidth=.5)
+              plt.barbs(Tmin+4,p[i],u[i],v[i], length=8, linewidth=2.)
 
 def plot_wind_barbs(axes, z, p, u, v):
     for i in np.arange(0,len(z)):
         if (p[i] > pt_plot):
-            plt.barbs(0,p[i],u[i],v[i], length=7, linewidth=.5)
+            plt.barbs(0,p[i],u[i],v[i], length=8., linewidth=2.)
 
               
 def plot_hodograph(axes, z, u, v):
