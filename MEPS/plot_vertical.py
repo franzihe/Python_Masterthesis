@@ -55,39 +55,78 @@ def dates_plt(time_ml):
         xt
     return(xt);
     
-def dates_plt_18(time_ml):
-    dt = []
-    dd = []
-    dm = []
-    dy = []
-    for i in range(0,time_ml.shape[0],6):
-        dt.append(datetime.datetime.utcfromtimestamp(time_ml[i]).hour)
-        dd.append(datetime.datetime.utcfromtimestamp(time_ml[i]).day)
-        dm.append(datetime.datetime.utcfromtimestamp(time_ml[i]).month)
-        dy.append(datetime.datetime.utcfromtimestamp(time_ml[i]).year)
-        
+# def dates_plt_18(time_ml):
+#     dt = []
+#     dd = []
+#     dm = []
+#     dy = []
+#     for i in range(0,time_ml.shape[0],6):
+#         dt.append(datetime.datetime.utcfromtimestamp(time_ml[i]).hour)
+#         dd.append(datetime.datetime.utcfromtimestamp(time_ml[i]).day)
+#         dm.append(datetime.datetime.utcfromtimestamp(time_ml[i]).month)
+#         dy.append(datetime.datetime.utcfromtimestamp(time_ml[i]).year)
+#         
+# 
+#     xt = []
+#     for i in range(0,1):
+#         xt.append('%s' %dt[i])
+#     t1 = '%s-%s-%s' %(dy[1],dm[1],dd[1])
+#     xt.append(t1)
+#     for i in range(2,5):
+#          xt.append('%s' %dt[i])
+#     t2 = '%s-%s-%s' %(dy[5],dm[5],dd[5])
+#     xt.append(t2)
+#     for i in range(6,9):
+#         xt.append('%s' %dt[i])
+#     if np.asarray(dt).size >9:
+#         t3 = '%s-%s-%s' %(dy[9],dm[9],dd[9])
+#         xt.append(t3)
+#     elif np.asarray(dt).size >10:
+#         for i in range(10,12):
+#             xt.append('%s' %dt[i])
+#     else:
+#         xt
+#     return(xt);
 
+def dates_plt_00(h_p00, m_p00, d_p00, y_p00, ini_day ):
     xt = []
-    for i in range(0,1):
-        xt.append('%s' %dt[i])
-    t1 = '%s-%s-%s' %(dy[1],dm[1],dd[1])
+    t1 = '%s-%s-%s' %(y_p00[0][ini_day-1], m_p00[0][ini_day-1], d_p00[0][ini_day-1])
     xt.append(t1)
-    for i in range(2,5):
-         xt.append('%s' %dt[i])
-    t2 = '%s-%s-%s' %(dy[5],dm[5],dd[5])
+    for i in range(6,24,6):
+        xt.append('%s' %h_p00[i][ini_day-1])
+        
+    t2 = '%s-%s-%s' %(y_p00[0][ini_day], m_p00[0][ini_day], d_p00[0][ini_day])
     xt.append(t2)
-    for i in range(6,9):
-        xt.append('%s' %dt[i])
-    if np.asarray(dt).size >9:
-        t3 = '%s-%s-%s' %(dy[9],dm[9],dd[9])
-        xt.append(t3)
-    elif np.asarray(dt).size >10:
-        for i in range(10,12):
-            xt.append('%s' %dt[i])
-    else:
-        xt
+    for i in range(6,24,6):
+        xt.append('%s' %h_p00[i][ini_day])
+    t3 = '%s-%s-%s' %(y_p00[0][ini_day+1], m_p00[0][ini_day+1], d_p00[0][ini_day+1])
+    xt.append(t3)
     return(xt);
 
+
+
+
+def dates_plt_18(h_p18, m_p18, d_p18, y_p18, ini_day):
+    xt = []
+    for i in range(0,1):
+        xt.append('%s' %h_p18[i][ini_day-1])
+    t1 = '%s-%s-%s' %(y_p18[6][ini_day-1], m_p18[6][ini_day-1], d_p18[6][ini_day-1])
+    xt.append(t1)
+    for i in range(12,24,6):
+        xt.append('%s' %h_p18[i][ini_day-1])
+    for i in range(0,1):
+        xt.append('%s' %h_p18[i][ini_day])
+    t2 = '%s-%s-%s' %(y_p18[6][ini_day], m_p18[6][ini_day], d_p18[6][ini_day])
+    xt.append(t2)
+    for i in range(12,24,6):
+        xt.append('%s' %h_p18[i][ini_day])
+    for i in range(0,1):
+        xt.append('%s' %h_p18[i][ini_day+1])
+    return(xt);
+    
+    
+    
+    
 levels = np.arange(0,0.6,0.02)   # snowfall amount not divided by thickness
 #levels = np.arange(0,9.5,0.32)     # snowfall amount divided by thickness
 # In[ ]:

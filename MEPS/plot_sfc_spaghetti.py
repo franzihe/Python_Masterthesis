@@ -22,7 +22,10 @@ dofe = np.array([64,180,233])/champ         # color for double fence measurement
 
 
 # In[ ]:
-def spaghetti_sfc_dofe(lead_time_sfc, variable, dofence_60, time_sfc, Xmax, day, var_name, unit, title, tid, doublefence):
+def spaghetti_sfc_dofe(lead_time_sfc, variable, dofence_60, #time_sfc, 
+              Xmax, day, var_name, 
+              h_p18, m_p18, d_p18, y_p18, ini_day,
+            unit, title, tid, doublefence):
     fig = plt.figure(figsize=(20,7))
     ax = plt.axes()
 # Vertical line to show end of day
@@ -31,7 +34,9 @@ def spaghetti_sfc_dofe(lead_time_sfc, variable, dofence_60, time_sfc, Xmax, day,
     ax.axvline(48,color = vert_col, linewidth = 3)
     if doublefence == 1:
 ## double fence    
-        plt.plot(np.arange(0,Xmax), np.asarray(dofence_60)[:,(int(day)-1)], marker = 'H', markersize=20, 
+#        plt.plot(np.arange(0,Xmax), np.asarray(dofence_60)[:,(int(day)-1)], marker = 'H', markersize=20, 
+ #           color = dofe, linestyle = 'None', label = 'double fence')
+        plt.plot(np.arange(0,Xmax), dofence_60, marker = 'H', markersize=20, 
             color = dofe, linestyle = 'None', label = 'double fence')
 ## ensemble member         
     for ens_memb in range(2,10):
@@ -53,13 +58,16 @@ def spaghetti_sfc_dofe(lead_time_sfc, variable, dofence_60, time_sfc, Xmax, day,
 
 # xaxis
     a = lead_time_sfc[0][0:48]
-    ax.set_xlim(-0.5,Xmax+0.5)
+#    ax.set_xlim(-0.5,Xmax+0.5)
+    ax.set_xlim(-0.5,Xmax-0.5)
     ax.set_xlabel('time', fontsize = 30)
-    ax.set_xticks(np.arange(0,Xmax+1,6))
+    ax.set_xticks(np.arange(0,Xmax,6))
     if tid == '18':
-        dates = pvert.dates_plt_18(time_sfc)
+#        dates = pvert.dates_plt_18(time_sfc)
+        dates = pvert.dates_plt_18(h_p18, m_p18, d_p18, y_p18, ini_day)
     if tid == '00':
-        dates = pvert.dates_plt(time_sfc)
+#        dates = pvert.dates_plt(time_sfc)
+        dates = pvert.dates_plt_00(h_p18, m_p18, d_p18, y_p18, ini_day)
     ax.set_xticklabels(dates, rotation = 25, fontsize = 22)
 # title
     ax.set_title(title, fontsize=30, color =blue )
@@ -69,7 +77,8 @@ def spaghetti_sfc_dofe(lead_time_sfc, variable, dofence_60, time_sfc, Xmax, day,
 
 
 
-def spaghetti_sfc_dofe_Morten(lead_time_sfc, variable, dofence_60, time_sfc, Xmax, day, var_name, unit, title, tid):
+def spaghetti_sfc_dofe_Morten(lead_time_sfc, variable, dofence_60, #time_sfc, 
+                 Xmax, day, var_name, unit, title, tid):
     fig = plt.figure(figsize=(20,7))
     ax = plt.axes()
 # Vertical line to show end of day
@@ -78,7 +87,7 @@ def spaghetti_sfc_dofe_Morten(lead_time_sfc, variable, dofence_60, time_sfc, Xma
     ax.axvline(48,color = vert_col, linewidth = 3)
 ## double fence    
 #### Morten
-    plt.plot(np.arange(0,Xmax), np.asarray(dofence_60)[:Xmax,(int(day)-1)], marker = 'o', markersize=20, 
+    plt.plot(np.arange(0,np.asarray(dofence_60[:Xmax]).shape[0]), dofence_60[:Xmax], marker = 'o', markersize=20, 
             color = 'k', linestyle = 'None', label = 'double fence')
 
 
