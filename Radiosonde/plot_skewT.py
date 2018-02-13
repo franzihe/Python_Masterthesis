@@ -73,7 +73,7 @@ def plot_skewT(T, Td, z, p, u, v, text, sfig, filename):
     lTd = Line2D(range(10), range(10), linestyle='-', marker='', linewidth=(linewidth_Td+1.5), color=linecolor_Td)
 
     plt.legend((lT, lTd,),(tT, tTd, ),
-             loc=(0.01,0.95), fontsize=18, handlelength=10)
+             loc=(0.49,0.89), fontsize=24, handlelength=5)
     ax5.set_axis_off()
 
 # Adjust plot margins.
@@ -86,7 +86,7 @@ def plot_skewT(T, Td, z, p, u, v, text, sfig, filename):
     ax1.text(0.98,0.96, text,     # x, y
             verticalalignment = 'bottom',  horizontalalignment='right',
             transform = ax1.transAxes,
-            color =blue, fontsize=26,
+            color =blue, fontsize=30,
             bbox={'facecolor':'white','alpha':.8, 'pad':10})
 
 # savefig
