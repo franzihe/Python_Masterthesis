@@ -182,66 +182,66 @@ import os
 #     
 # # In[ ]:
 # 
-# def valid_values_wind(uwind, vwind, DateHour):
-# ### get hour, day, month, year
-#     hh = []
-#     dy = []
-#     mm = []
-#     yr = []
-#     for i in range(0,DateHour.shape[0]):
-#         idx = datetime.datetime.strptime(str(DateHour[i]),'%d.%m.%Y-%H:%M')
-#         hh.append(idx.hour)
-#         dy.append(idx.day)
-#         mm.append(idx.month)
-#         yr.append(idx.year)
-#     
-#     
-#     dt = []
-#     Uvar = [] 
-#     Vvar = []
-#     hour = []
-#     day = []
-#     month = []
-#     year = []
-# ### arange daily values in an array    
-#     for i in range(0,31):
-#         dt.append(DateHour[i*24:(i+1)*24])
-#         Uvar.append(uwind[i*24:(i+1)*24])
-#         Vvar.append(vwind[i*24:(i+1)*24])
-#         hour.append(hh[i*24:(i+1)*24])
-#         day.append(dy[i*24:(i+1)*24])
-#         month.append(mm[i*24:(i+1)*24])
-#         year.append(yr[i*24:(i+1)*24])
-#         
-#     dt = (np.transpose(dt))
-#     Uvar = (np.transpose(Uvar))
-#     Vvar = (np.transpose(Vvar))
-#     hour = (np.transpose(hour))
-#     day = (np.transpose(day))
-#     month = (np.transpose(month))
-#     year = (np.transpose(year))
-#     
-# ### mask missing values with NaN
-#     Uvariable = []
-#     Vvariable = []
-#     dt_variable = []
-#     hour_variable = []
-#     day_variable = []
-#     month_variable = []
-#     year_variable = []
-#     for i in range(0,31):
-#         
-#         Uvariable.append(Uvar[~np.isnan(Uvar[:,i]),i])
-#         Vvariable.append(Vvar[~np.isnan(Vvar[:,i]),i])
-#         dt_variable.append(dt[~np.isnan(Vvar[:,i]),i])
-#         hour_variable.append(hour[~np.isnan(Vvar[:,i]),i])
-#         day_variable.append(day[~np.isnan(Vvar[:,i]),i])
-#         month_variable.append(month[~np.isnan(Vvar[:,i]),i])
-#         year_variable.append(year[~np.isnan(Vvar[:,i]),i])  
-#         
-#         
-#     return(Uvariable, Vvariable, dt_variable, hour_variable, day_variable, month_variable, year_variable)
-# 
+def valid_values_wind(uwind, vwind, DateHour):
+### get hour, day, month, year
+    hh = []
+    dy = []
+    mm = []
+    yr = []
+    for i in range(0,DateHour.shape[0]):
+        idx = datetime.datetime.strptime(str(DateHour[i]),'%d.%m.%Y-%H:%M')
+        hh.append(idx.hour)
+        dy.append(idx.day)
+        mm.append(idx.month)
+        yr.append(idx.year)
+    
+    
+    dt = []
+    Uvar = [] 
+    Vvar = []
+    hour = []
+    day = []
+    month = []
+    year = []
+### arange daily values in an array    
+    for i in range(0,31):
+        dt.append(DateHour[i*24:(i+1)*24])
+        Uvar.append(uwind[i*24:(i+1)*24])
+        Vvar.append(vwind[i*24:(i+1)*24])
+        hour.append(hh[i*24:(i+1)*24])
+        day.append(dy[i*24:(i+1)*24])
+        month.append(mm[i*24:(i+1)*24])
+        year.append(yr[i*24:(i+1)*24])
+        
+    dt = (np.transpose(dt))
+    Uvar = (np.transpose(Uvar))
+    Vvar = (np.transpose(Vvar))
+    hour = (np.transpose(hour))
+    day = (np.transpose(day))
+    month = (np.transpose(month))
+    year = (np.transpose(year))
+    
+### mask missing values with NaN
+    Uvariable = []
+    Vvariable = []
+    dt_variable = []
+    hour_variable = []
+    day_variable = []
+    month_variable = []
+    year_variable = []
+    for i in range(0,31):
+        
+        Uvariable.append(Uvar[~np.isnan(Uvar[:,i]),i])
+        Vvariable.append(Vvar[~np.isnan(Vvar[:,i]),i])
+        dt_variable.append(dt[~np.isnan(Vvar[:,i]),i])
+        hour_variable.append(hour[~np.isnan(Vvar[:,i]),i])
+        day_variable.append(day[~np.isnan(Vvar[:,i]),i])
+        month_variable.append(month[~np.isnan(Vvar[:,i]),i])
+        year_variable.append(year[~np.isnan(Vvar[:,i]),i])  
+        
+        
+    return(Uvariable, Vvariable, dt_variable, hour_variable, day_variable, month_variable, year_variable)
+
 
 
 
