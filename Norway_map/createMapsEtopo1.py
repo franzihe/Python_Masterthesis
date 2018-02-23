@@ -101,8 +101,12 @@ def makeMap(lonStart,lonEnd,latStart,latEnd,name,stLon,stLat,zoom):
     map.drawcoastlines()
     map.drawcountries()
     map.drawmapboundary(fill_color='gainsboro')
-    map.drawmeridians(np.arange(lons.min(),lons.max(),10),labels=[0,0,0,1],fontsize=16)
-    map.drawparallels(np.arange(lats.min(),lats.max(),4),labels=[1,0,0,0],fontsize=16)
+    if zoom != 'zoom':
+        map.drawmeridians(np.arange(lons.min(),lons.max(),10),labels=[0,0,0,1],fontsize=16)
+        map.drawparallels(np.arange(lats.min(),lats.max(),4),labels=[1,0,0,0],fontsize=16)
+    else:
+        map.drawmeridians(np.arange(lons.min(),lons.max(),3),labels=[0,0,0,1],fontsize=16)
+        map.drawparallels(np.arange(lats.min(),lats.max(),2),labels=[1,0,0,0],fontsize=16)
     #map.etopo()
 
 
