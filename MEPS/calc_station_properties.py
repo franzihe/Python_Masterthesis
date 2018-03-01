@@ -60,9 +60,9 @@ def get_thickness(surface_air_pressure,
 ### calculate the pressure-weighted, column averaged temperature as from J. E. Martin: Mid-Latitude Atmospheric 
 # Dynamics Book, Eq. below Eq. 3.6
     temp_mean = []
-    for i in range(0, temperature.shape[1]):
-        numT = simps(y=temperature[:,i:(i+2)], x=pressure[:,i:(i+2)], dx = np.log(pressure[:,i:(i+2)]))
-        denomT = simps(y=np.ones(temperature[:,i:(i+2)].shape), x = pressure[:,i:(i+2)], dx = np.log(pressure[:,i:(i+2)]))
+    for i in range(0, temperature.shape[1]-1):
+        numT = simps(y=temperature[:,i:(i+2)], x=np.log(pressure[:,i:(i+2)]), dx = np.log(pressure[:,i:(i+2)]),even='last')
+        denomT = simps(y=np.ones(temperature[:,i:(i+2)].shape), x = np.log(pressure[:,i:(i+2)]), dx = np.log(pressure[:,i:(i+2)]),even='last')
         t_mean = numT/denomT
         temp_mean.append(t_mean)
 # get temperature and pressure, and value so that array zero contains low levels (transpose or flip)
