@@ -23,6 +23,7 @@ dofe = np.array([64,180,233])/champ         # color for double fence measurement
 
 # In[ ]:
 def spaghetti_sfc_dofe(lead_time_sfc, variable, dofence_60, #time_sfc, 
+              acc_ret,
               Xmax, day, var_name, 
               h_p18, m_p18, d_p18, y_p18, ini_day,
             unit, title, tid, doublefence):
@@ -45,6 +46,10 @@ def spaghetti_sfc_dofe(lead_time_sfc, variable, dofence_60, #time_sfc,
     ax.plot(lead_time_sfc[1][:Xmax], variable[1][:Xmax], color = memb_col,
            linestyle = '-', label = 'ensemble member')
     ax.plot(lead_time_sfc[0][:Xmax], variable[0][:Xmax], 'k', linewidth = 4, label = 'best guess')
+    
+## retrieval
+    plt.plot(np.arange(0, np.asarray(acc_ret).shape[0]/60,1/60), acc_ret, linestyle = (0, (3, 1, 1, 1)), 
+         color = 'orange', label = 'retrieved snowfall',linewidth=6)
 ### fine tuning
     lgd = plt.legend(loc='upper left',fontsize=26)
     ax.grid()
