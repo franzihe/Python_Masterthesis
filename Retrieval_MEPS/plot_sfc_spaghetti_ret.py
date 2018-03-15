@@ -128,4 +128,119 @@ def spaghetti_sfc_dofe_Morten(lead_time_sfc, variable, dofence_60, #time_sfc,
     ax.set_title(title, fontsize=30, color ='k' )
 # tight layout
     plt.tight_layout()
-      
+
+
+#######################################
+def spaghetti_sfc_dofe_wind(lead_time_sfc, variable, dofence_60, #time_sfc, 
+              acc_ret, uwind,vwind, uwind_dofe, vwind_dofe,
+              Xmax, day, var_name, 
+              h_p18, m_p18, d_p18, y_p18, ini_day,
+            unit, title, tid, doublefence):
+            
+    fig = plt.figure(figsize=(20,11))
+    
+    gs = GridSpec(11,1)
+    ax0 = fig.add_subplot(gs[:7,:])
+    
+# Vertical line to show end of day
+    ax0.axvline(0,color = vert_col, linewidth = 3)
+    ax0.axvline(24,color = vert_col, linewidth = 3)
+    ax0.axvline(48,color = vert_col, linewidth = 3)
+    
+    
+    
+    
+    if doublefence == 1:
+## double fence    
+#        plt.plot(np.arange(0,Xmax), np.asarray(dofence_60)[:,(int(day)-1)], marker = 'H', markersize=20, 
+ #           color = dofe, linestyle = 'None', label = 'double fence')
+        ax0.plot(np.arange(0,Xmax), dofence_60, marker = 'H', markersize=20, 
+            color = dofe, linestyle = 'None', label = 'double fence')
+## ensemble member         
+    for ens_memb in range(2,10):
+        ax0.plot(lead_time_sfc[ens_memb][:Xmax], variable[ens_memb][:Xmax], color = memb_col,
+           linestyle = '-', label='_nolegend_')
+    ax0.plot(lead_time_sfc[1][:Xmax], variable[1][:Xmax], color = memb_col,
+           linestyle = '-', label = 'ensemble member')
+    ax0.plot(lead_time_sfc[0][:Xmax], variable[0][:Xmax], 'k', linewidth = 4, label = 'best guess')
+    
+## retrieval
+    ax0.plot(np.arange(0, np.asarray(acc_ret).shape[0]/60,1/60), acc_ret, linestyle = (0, (3, 1, 1, 1)), 
+         color = 'orange', label = 'retrieved snowfall',linewidth=6)
+## Wind MEPS
+    ax1 = plt.subplot(gs[7:8,:])
+    ax1.grid()
+    ax1.axvline(0,color = vert_col, linewidth = 3)
+    ax1.axvline(24,color = vert_col, linewidth = 3)
+    ax1.axvline(48,color = vert_col, linewidth = 3)  
+    ax1.barbs(lead_time_sfc[0][:(Xmax)], np.zeros((lead_time_sfc[0][:(Xmax)]).shape[0]),
+                uwind[0][:Xmax], vwind[0][:Xmax], length = 7, pivot = 'middle',linewidth=1.5)
+             
+## Wind double fence
+    ax2 = plt.subplot(gs[8:9,:])
+    ax2.grid()
+    ax2.axvline(0,color = vert_col, linewidth = 3)
+    ax2.axvline(24,color = vert_col, linewidth = 3)
+    ax2.axvline(48,color = vert_col, linewidth = 3)
+    ax2.barbs(lead_time_sfc[0][:(Xmax-1)], np.zeros((lead_time_sfc[0][:(Xmax-1)]).shape[0]),
+                uwind_dofe, vwind_dofe, length = 7, pivot ='middle',linewidth=1.5)
+    
+
+### fine tuning
+    lgd = ax0.legend(loc='upper left',fontsize=26)
+    ax0.grid()
+
+# yaxis
+    ax0.set_ylabel('%s %s %s' %(var_name[0], var_name[1], unit), fontsize = 26)
+    ax0.set_ylim(-0.5,80)
+    T = np.arange(0,90,10)
+    ax0.set_yticks(T)
+    ax0.set_yticklabels(T,fontsize = 22)
+
+# xaxis
+    a = lead_time_sfc[0][0:48]
+    ax0.set_xlim(-0.5,Xmax-0.5)
+    ax0.set_xticks(np.arange(0,Xmax,6))
+    plt.setp(ax0.get_xticklabels(), visible=False) 
+# labeling Wind
+    ax1.set_ylabel('MEPS',fontsize=26)
+    ax2.set_ylabel('WM',fontsize =26)
+    plt.setp(ax1.get_xticklabels(), visible=False)
+    plt.setp(ax2.get_xticklabels(), visible=False)
+    plt.setp(ax1.get_yticklabels(), visible=False)
+    plt.setp(ax2.get_yticklabels(), visible=False)
+
+    
+    ax1.set_xticks(lead_time_sfc[0][:(Xmax)])
+    ax2.set_xticks(lead_time_sfc[0][:(Xmax)])
+    ax1.set_xlim([-0.5,Xmax-0.5])
+    ax1.set_ylim([-0.5,0.5])
+    
+    ax2.set_xlim([-0.5,Xmax-0.5])
+    ax2.set_ylim([-0.5,0.5])
+
+    ax1.set_xticks(np.arange(0,Xmax,6))
+    ax2.set_xticks(np.arange(0,Xmax,6))
+    if tid == '18':
+        dates = pvert.dates_plt_18(h_p18, m_p18, d_p18, y_p18, ini_day)
+    if tid == '00':
+        dates = pvert.dates_plt_00(h_p18, m_p18, d_p18, y_p18, ini_day)
+#    ax2.set_xticklabels(dates, rotation = 25, fontsize = 24)
+    ax1.tick_params(axis='both', which= 'major', labelsize=24)
+    ax2.tick_params(axis='both', which= 'major', labelsize=24)
+ #   ax2.set_xlabel('time', fontsize = 26)
+    ax3 = plt.subplot(gs[9:10,:])
+    plt.setp(ax3.get_yticklabels(), visible=False)
+    ax3.spines['right'].set_visible(False)
+    ax3.spines['top'].set_visible(False)
+    ax3.spines['left'].set_visible(False)
+    ax3.set_xticks(lead_time_sfc[0][:(Xmax)])
+    ax3.set_xlim([-0.5,Xmax-0.5])
+    ax2.set_ylim([-0.00005,0.00005])
+    ax3.set_xticks(np.arange(0,Xmax,6))
+    ax3.set_xticklabels(dates, rotation = 25, fontsize = 24)
+    ax3.set_xlabel('time', fontsize = 26)
+# title
+    ax0.set_title(title, fontsize=30, color =blue )
+# tight layout
+    plt.tight_layout()      
