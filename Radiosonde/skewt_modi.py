@@ -144,7 +144,8 @@ Tmin = -40.0
 """Sets the left boundary of the plot. Temperature at 1000 mb (C)"""
 Tmax = 40.0
 """Sets the right boundary of the plot. Temperature at 1000 mb (C)"""
-pbot = 100000.0
+#pbot = 100000.0
+pbot = 95000.0
 """Sets the bottom boundary of the plot. Pressure (Pa)"""
 #ptop = 10000.0
 ptop = 30000.0
