@@ -2,7 +2,8 @@
 # coding: utf-8
 
 # In[1]:
-
+import sys
+sys.path.append('/Volumes/SANDISK128/Documents/Thesis/Python/MEPS/')
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
@@ -18,7 +19,9 @@ memb_col = np.array([99,99,99])/champ       # ensemble member color
 vert_col = np.array([197,197,197])/champ    # vertical line for day marker
 dofe = np.array([64,180,233])/champ         # color for double fence measurement
 
-
+fontsize = 30.
+tick_fs = fontsize-2
+label_fs = fontsize
 
 
 # In[ ]:
@@ -51,21 +54,21 @@ def spaghetti_sfc_dofe(lead_time_sfc, variable, dofence_60, #time_sfc,
     plt.plot(np.arange(0, np.asarray(acc_ret).shape[0]/60,1/60), acc_ret, linestyle = (0, (3, 1, 1, 1)), 
          color = 'orange', label = 'retrieved snowfall',linewidth=6)
 ### fine tuning
-    lgd = plt.legend(loc='upper left',fontsize=26)
+    lgd = plt.legend(loc='upper left',fontsize=fontsize)
     ax.grid()
 
 # yaxis
-    ax.set_ylabel('%s %s %s' %(var_name[0], var_name[1], unit), fontsize = 30)
+    ax.set_ylabel('%s %s %s' %(var_name[0], var_name[1], unit), fontsize=label_fs)
     ax.set_ylim(-0.5,80)
     T = np.arange(0,90,10)
     ax.set_yticks(T)
-    ax.set_yticklabels(T,fontsize = 22)
+    ax.set_yticklabels(T,fontsize = tick_fs)
 
 # xaxis
     a = lead_time_sfc[0][0:48]
 #    ax.set_xlim(-0.5,Xmax+0.5)
     ax.set_xlim(-0.5,Xmax-0.5)
-    ax.set_xlabel('time', fontsize = 30)
+    ax.set_xlabel('time', fontsize=label_fs)
     ax.set_xticks(np.arange(0,Xmax,6))
     if tid == '18':
 #        dates = pvert.dates_plt_18(time_sfc)
@@ -73,9 +76,9 @@ def spaghetti_sfc_dofe(lead_time_sfc, variable, dofence_60, #time_sfc,
     if tid == '00':
 #        dates = pvert.dates_plt(time_sfc)
         dates = pvert.dates_plt_00(h_p18, m_p18, d_p18, y_p18, ini_day)
-    ax.set_xticklabels(dates, rotation = 25, fontsize = 22)
+    ax.set_xticklabels(dates, rotation = 25, fontsize = tick_fs)
 # title
-    ax.set_title(title, fontsize=30, color =blue )
+    ax.set_title(title, fontsize=fontsize, color =blue )
 # tight layout
     plt.tight_layout()
 
@@ -111,21 +114,21 @@ def spaghetti_sfc_dofe_Morten(lead_time_sfc, variable, dofence_60, #time_sfc,
     ax.grid()
 
 # yaxis
-    ax.set_ylabel('%s %s %s' %(var_name[0], var_name[1], unit), fontsize = 30)
+    ax.set_ylabel('%s %s %s' %(var_name[0], var_name[1], unit), fontsize = fontsize)
     ax.set_ylim(-0.5,65)
     T = np.arange(0,70,10)
     ax.set_yticks(T)
-    ax.set_yticklabels(T,fontsize = 22)
+    ax.set_yticklabels(T,fontsize = tick_fs)
 
 # xaxis
     b = np.arange(0,Xmax+5,5)
     ax.set_xlim(-0.5,Xmax-0.5)
-    ax.set_xlabel('lead time', fontsize = 30)
+    ax.set_xlabel('lead time', fontsize = label_fs)
     ax.set_xticks(np.arange(0,Xmax,5))
 
-    ax.set_xticklabels(b, fontsize = 22)
+    ax.set_xticklabels(b, fontsize = tick_fs)
 # title
-    ax.set_title(title, fontsize=30, color ='k' )
+    ax.set_title(title, fontsize=fontsize, color ='k' )
 # tight layout
     plt.tight_layout()
 
@@ -137,8 +140,8 @@ def spaghetti_sfc_dofe_wind(lead_time_sfc, variable, dofence_60, #time_sfc,
               h_p18, m_p18, d_p18, y_p18, ini_day,
             unit, title, tid, doublefence):
             
-    fig = plt.figure(figsize=(20,11))
-    
+#    fig = plt.figure(figsize=(20,11))
+    fig = plt.figure(figsize=(18.,12.5))
     gs = GridSpec(11,1)
     ax0 = fig.add_subplot(gs[:7,:])
     
@@ -187,15 +190,15 @@ def spaghetti_sfc_dofe_wind(lead_time_sfc, variable, dofence_60, #time_sfc,
     
 
 ### fine tuning
-    lgd = ax0.legend(loc='upper left',fontsize=26)
+    lgd = ax0.legend(loc='upper left',fontsize=fontsize)
     ax0.grid()
 
 # yaxis
-    ax0.set_ylabel('%s %s %s' %(var_name[0], var_name[1], unit), fontsize = 26)
+    ax0.set_ylabel('%s %s %s' %(var_name[0], var_name[1], unit), fontsize = label_fs)
     ax0.set_ylim(-0.5,80)
     T = np.arange(0,90,10)
     ax0.set_yticks(T)
-    ax0.set_yticklabels(T,fontsize = 22)
+    ax0.set_yticklabels(T,fontsize = fontsize)
 
 # xaxis
     a = lead_time_sfc[0][0:48]
@@ -203,8 +206,8 @@ def spaghetti_sfc_dofe_wind(lead_time_sfc, variable, dofence_60, #time_sfc,
     ax0.set_xticks(np.arange(0,Xmax,6))
     plt.setp(ax0.get_xticklabels(), visible=False) 
 # labeling Wind
-    ax1.set_ylabel('MEPS',fontsize=26)
-    ax2.set_ylabel('WM',fontsize =26)
+    ax1.set_ylabel('MEPS',fontsize=label_fs)
+    ax2.set_ylabel('WM',fontsize =label_fs)
     plt.setp(ax1.get_xticklabels(), visible=False)
     plt.setp(ax2.get_xticklabels(), visible=False)
     plt.setp(ax1.get_yticklabels(), visible=False)
@@ -238,9 +241,9 @@ def spaghetti_sfc_dofe_wind(lead_time_sfc, variable, dofence_60, #time_sfc,
     ax3.set_xlim([-0.5,Xmax-0.5])
     ax2.set_ylim([-0.00005,0.00005])
     ax3.set_xticks(np.arange(0,Xmax,6))
-    ax3.set_xticklabels(dates, rotation = 25, fontsize = 24)
-    ax3.set_xlabel('time', fontsize = 26)
+    ax3.set_xticklabels(dates, rotation = 25, fontsize = tick_fs)
+    ax3.set_xlabel('time', fontsize = label_fs)
 # title
-    ax0.set_title(title, fontsize=30, color =blue )
+    ax0.set_title(title, fontsize=fontsize, color =blue )
 # tight layout
     plt.tight_layout()      
