@@ -167,7 +167,8 @@ class WindroseAxes(PolarAxes):
 
     
 #    def legend(self, loc=(-0.12, 0.75),**kwargs):
-    def legend(self, loc=(0.935, 0.75),**kwargs):
+#    def legend(self, loc=(0.935, 0.75),**kwargs):
+    def legend(self, loc=(0.2,-1.05),**kwargs):
         """
         Sets the legend location and her properties.
         The location codes are
