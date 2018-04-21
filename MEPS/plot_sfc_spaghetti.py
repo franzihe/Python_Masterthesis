@@ -16,8 +16,8 @@ champ = 255.
 blue = np.array([1,74,159])/champ           # for the date
 memb_col = np.array([99,99,99])/champ       # ensemble member color
 vert_col = np.array([197,197,197])/champ    # vertical line for day marker
-dofe = np.array([64,180,233])/champ         # color for double fence measurement
-
+#dofe = np.array([64,180,233])/champ         # color for double fence measurement
+dofe = np.array([125,98,179])/champ
 
 
 

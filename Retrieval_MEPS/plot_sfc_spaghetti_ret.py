@@ -8,6 +8,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
 import plot_vertical as pvert 
+#import matplotlib as mpl
+#mpl.style.use('ggplot')
 
 
 # In[2]:
@@ -17,7 +19,8 @@ champ = 255.
 blue = np.array([1,74,159])/champ           # for the date
 memb_col = np.array([99,99,99])/champ       # ensemble member color
 vert_col = np.array([197,197,197])/champ    # vertical line for day marker
-dofe = np.array([64,180,233])/champ         # color for double fence measurement
+#dofe = np.array([64,180,233])/champ         # color for double fence measurement
+dofe = np.array([125,98,179])/champ
 
 fontsize = 30.
 tick_fs = fontsize-2
@@ -55,6 +58,8 @@ def spaghetti_sfc_dofe(lead_time_sfc, variable, dofence_60, #time_sfc,
          color = 'orange', label = 'retrieved snowfall',linewidth=6)
 ### fine tuning
     lgd = plt.legend(loc='upper left',fontsize=fontsize)
+#    frame = lgd.get_frame()
+#    frame.set_facecolor('white')
     ax.grid()
 
 # yaxis
