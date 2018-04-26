@@ -8,8 +8,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
 import plot_vertical as pvert 
-#import matplotlib as mpl
-#mpl.style.use('ggplot')
+import matplotlib as mpl
+mpl.style.use('ggplot')
+
 
 
 # In[2]:
@@ -33,6 +34,7 @@ def spaghetti_sfc_dofe(lead_time_sfc, variable, dofence_60, #time_sfc,
               Xmax, day, var_name, 
               h_p18, m_p18, d_p18, y_p18, ini_day,
             unit, title, tid, doublefence):
+    
     fig = plt.figure(figsize=(20,7))
     ax = plt.axes()
 # Vertical line to show end of day
@@ -54,13 +56,13 @@ def spaghetti_sfc_dofe(lead_time_sfc, variable, dofence_60, #time_sfc,
     ax.plot(lead_time_sfc[0][:Xmax], variable[0][:Xmax], 'k', linewidth = 4, label = 'best guess')
     
 ## retrieval
-    plt.plot(np.arange(0, np.asarray(acc_ret).shape[0]/60,1/60), acc_ret, linestyle = (0, (3, 1, 1, 1)), 
+    ax.plot(np.arange(0, np.asarray(acc_ret).shape[0]/60,1/60), acc_ret, linestyle = (0, (3, 1, 1, 1)), 
          color = 'orange', label = 'retrieved snowfall',linewidth=6)
 ### fine tuning
     lgd = plt.legend(loc='upper left',fontsize=fontsize)
-#    frame = lgd.get_frame()
-#    frame.set_facecolor('white')
-    ax.grid()
+    frame = lgd.get_frame()
+    frame.set_facecolor('white')
+#    ax.grid()
 
 # yaxis
     ax.set_ylabel('%s %s %s' %(var_name[0], var_name[1], unit), fontsize=label_fs)
@@ -139,12 +141,12 @@ def spaghetti_sfc_dofe_Morten(lead_time_sfc, variable, dofence_60, #time_sfc,
 
 
 #######################################
-def spaghetti_sfc_dofe_wind(lead_time_sfc, variable, dofence_60, #time_sfc, 
+def spaghetti_sfc_dofe_wind(lead_time_sfc, lead_time_em, variable, dofence_60, #time_sfc, 
               acc_ret, uwind,vwind, uwind_dofe, vwind_dofe,
               Xmax, day, var_name, 
               h_p18, m_p18, d_p18, y_p18, ini_day,
             unit, title, tid, doublefence):
-            
+          
 #    fig = plt.figure(figsize=(20,11))
     fig = plt.figure(figsize=(18.,12.5))
     gs = GridSpec(11,1)
@@ -166,11 +168,11 @@ def spaghetti_sfc_dofe_wind(lead_time_sfc, variable, dofence_60, #time_sfc,
             color = dofe, linestyle = 'None', label = 'double fence')
 ## ensemble member         
     for ens_memb in range(2,10):
-        ax0.plot(lead_time_sfc[ens_memb][:Xmax], variable[ens_memb][:Xmax], color = memb_col,
+        ax0.plot(lead_time_em[ens_memb][:Xmax], variable[ens_memb][:Xmax], color = memb_col,
            linestyle = '-', label='_nolegend_')
-    ax0.plot(lead_time_sfc[1][:Xmax], variable[1][:Xmax], color = memb_col,
+    ax0.plot(lead_time_em[1][:Xmax], variable[1][:Xmax], color = memb_col,
            linestyle = '-', label = 'ensemble member')
-    ax0.plot(lead_time_sfc[0][:Xmax], variable[0][:Xmax], 'k', linewidth = 4, label = 'best guess')
+    ax0.plot(lead_time_em[0][:Xmax], variable[0][:Xmax], 'k', linewidth = 4, label = 'best guess')
     
 ## retrieval
     ax0.plot(np.arange(0, np.asarray(acc_ret).shape[0]/60,1/60), acc_ret, linestyle = (0, (3, 1, 1, 1)), 
@@ -181,8 +183,8 @@ def spaghetti_sfc_dofe_wind(lead_time_sfc, variable, dofence_60, #time_sfc,
     ax1.axvline(0,color = vert_col, linewidth = 3)
     ax1.axvline(24,color = vert_col, linewidth = 3)
     ax1.axvline(48,color = vert_col, linewidth = 3)  
-    ax1.barbs(lead_time_sfc[0][:(Xmax)], np.zeros((lead_time_sfc[0][:(Xmax)]).shape[0]),
-                uwind[0][:Xmax], vwind[0][:Xmax], length = 7, pivot = 'middle',linewidth=1.5)
+    ax1.barbs(lead_time_sfc[:(Xmax-1)], np.zeros((lead_time_sfc[:(Xmax-1)]).shape[0]),
+                uwind, vwind, length = 7, pivot = 'middle',linewidth=1.5)
              
 ## Wind double fence
     ax2 = plt.subplot(gs[8:9,:])
@@ -190,13 +192,15 @@ def spaghetti_sfc_dofe_wind(lead_time_sfc, variable, dofence_60, #time_sfc,
     ax2.axvline(0,color = vert_col, linewidth = 3)
     ax2.axvline(24,color = vert_col, linewidth = 3)
     ax2.axvline(48,color = vert_col, linewidth = 3)
-    ax2.barbs(lead_time_sfc[0][:(Xmax-1)], np.zeros((lead_time_sfc[0][:(Xmax-1)]).shape[0]),
+    ax2.barbs(lead_time_sfc[:(Xmax-1)], np.zeros((lead_time_sfc[:(Xmax-1)]).shape[0]),
                 uwind_dofe, vwind_dofe, length = 7, pivot ='middle',linewidth=1.5)
     
 
 ### fine tuning
     lgd = ax0.legend(loc='upper left',fontsize=fontsize)
-    ax0.grid()
+    frame = lgd.get_frame()
+    frame.set_facecolor('white')
+#    ax0.grid()
 
 # yaxis
     ax0.set_ylabel('%s %s %s' %(var_name[0], var_name[1], unit), fontsize = label_fs)
@@ -206,21 +210,21 @@ def spaghetti_sfc_dofe_wind(lead_time_sfc, variable, dofence_60, #time_sfc,
     ax0.set_yticklabels(T,fontsize = fontsize)
 
 # xaxis
-    a = lead_time_sfc[0][0:48]
+    a = lead_time_sfc[0:48]
     ax0.set_xlim(-0.5,Xmax-0.5)
     ax0.set_xticks(np.arange(0,Xmax,6))
     plt.setp(ax0.get_xticklabels(), visible=False) 
 # labeling Wind
-    ax1.set_ylabel('MEPS',fontsize=label_fs)
-    ax2.set_ylabel('WM',fontsize =label_fs)
+    ax1.set_ylabel('gust',fontsize=label_fs)
+    ax2.set_ylabel('10m',fontsize =label_fs)
     plt.setp(ax1.get_xticklabels(), visible=False)
     plt.setp(ax2.get_xticklabels(), visible=False)
     plt.setp(ax1.get_yticklabels(), visible=False)
     plt.setp(ax2.get_yticklabels(), visible=False)
 
     
-    ax1.set_xticks(lead_time_sfc[0][:(Xmax)])
-    ax2.set_xticks(lead_time_sfc[0][:(Xmax)])
+    ax1.set_xticks(lead_time_sfc[:(Xmax)])
+    ax2.set_xticks(lead_time_sfc[:(Xmax)])
     ax1.set_xlim([-0.5,Xmax-0.5])
     ax1.set_ylim([-0.5,0.5])
     
@@ -237,12 +241,14 @@ def spaghetti_sfc_dofe_wind(lead_time_sfc, variable, dofence_60, #time_sfc,
     ax1.tick_params(axis='both', which= 'major', labelsize=24)
     ax2.tick_params(axis='both', which= 'major', labelsize=24)
  #   ax2.set_xlabel('time', fontsize = 26)
+    
+#    mpl.style.use('classic')
     ax3 = plt.subplot(gs[9:10,:])
     plt.setp(ax3.get_yticklabels(), visible=False)
     ax3.spines['right'].set_visible(False)
     ax3.spines['top'].set_visible(False)
     ax3.spines['left'].set_visible(False)
-    ax3.set_xticks(lead_time_sfc[0][:(Xmax)])
+    ax3.set_xticks(lead_time_sfc[:(Xmax)])
     ax3.set_xlim([-0.5,Xmax-0.5])
     ax2.set_ylim([-0.00005,0.00005])
     ax3.set_xticks(np.arange(0,Xmax,6))
