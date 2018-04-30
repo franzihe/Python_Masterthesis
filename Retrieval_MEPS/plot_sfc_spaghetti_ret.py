@@ -148,8 +148,9 @@ def spaghetti_sfc_dofe_wind(lead_time_sfc, lead_time_em, variable, dofence_60, #
             unit, title, tid, doublefence):
           
 #    fig = plt.figure(figsize=(20,11))
-    fig = plt.figure(figsize=(18.,12.5))
-    gs = GridSpec(11,1)
+    fig = plt.figure(figsize=(18.,10))
+    gs = GridSpec(10,1)
+    gs.update(wspace=1., hspace=0.45)
     ax0 = fig.add_subplot(gs[:7,:])
     
 # Vertical line to show end of day
@@ -178,17 +179,18 @@ def spaghetti_sfc_dofe_wind(lead_time_sfc, lead_time_em, variable, dofence_60, #
     ax0.plot(np.arange(0, np.asarray(acc_ret).shape[0]/60,1/60), acc_ret, linestyle = (0, (3, 1, 1, 1)), 
          color = 'orange', label = 'retrieved snowfall',linewidth=6)
 ## Wind MEPS
-    ax1 = plt.subplot(gs[7:8,:])
-    ax1.grid()
-    ax1.axvline(0,color = vert_col, linewidth = 3)
-    ax1.axvline(24,color = vert_col, linewidth = 3)
-    ax1.axvline(48,color = vert_col, linewidth = 3)  
-    ax1.barbs(lead_time_sfc[:(Xmax-1)], np.zeros((lead_time_sfc[:(Xmax-1)]).shape[0]),
-                uwind, vwind, length = 7, pivot = 'middle',linewidth=1.5)
+#    ax1 = plt.subplot(gs[7:8,:])
+ #   ax1.grid()
+  #  ax1.axvline(0,color = vert_col, linewidth = 3)
+   # ax1.axvline(24,color = vert_col, linewidth = 3)
+    #ax1.axvline(48,color = vert_col, linewidth = 3)  
+    #ax1.barbs(lead_time_sfc[:(Xmax-1)], np.zeros((lead_time_sfc[:(Xmax-1)]).shape[0]),
+     #           uwind, vwind, length = 7, pivot = 'middle',linewidth=1.5)
              
 ## Wind double fence
-    ax2 = plt.subplot(gs[8:9,:])
-    ax2.grid()
+#    ax2 = plt.subplot(gs[8:9,:])
+    ax2 = plt.subplot(gs[7:8,:])
+#    ax2.grid()
     ax2.axvline(0,color = vert_col, linewidth = 3)
     ax2.axvline(24,color = vert_col, linewidth = 3)
     ax2.axvline(48,color = vert_col, linewidth = 3)
@@ -204,7 +206,7 @@ def spaghetti_sfc_dofe_wind(lead_time_sfc, lead_time_em, variable, dofence_60, #
 
 # yaxis
     ax0.set_ylabel('%s %s %s' %(var_name[0], var_name[1], unit), fontsize = label_fs)
-    ax0.set_ylim(-0.5,80)
+    ax0.set_ylim(-0.8,80)
     T = np.arange(0,90,10)
     ax0.set_yticks(T)
     ax0.set_yticklabels(T,fontsize = fontsize)
@@ -215,46 +217,59 @@ def spaghetti_sfc_dofe_wind(lead_time_sfc, lead_time_em, variable, dofence_60, #
     ax0.set_xticks(np.arange(0,Xmax,6))
     plt.setp(ax0.get_xticklabels(), visible=False) 
 # labeling Wind
-    ax1.set_ylabel('gust',fontsize=label_fs)
-    ax2.set_ylabel('10m',fontsize =label_fs)
-    plt.setp(ax1.get_xticklabels(), visible=False)
-    plt.setp(ax2.get_xticklabels(), visible=False)
-    plt.setp(ax1.get_yticklabels(), visible=False)
-    plt.setp(ax2.get_yticklabels(), visible=False)
+#    ax1.set_ylabel('gust',fontsize=label_fs)
+#    ax2.set_ylabel('10m',fontsize =label_fs)
+ #   plt.setp(ax1.get_xticklabels(), visible=False)
+ #   plt.setp(ax2.get_xticklabels(), visible=False)
+  #  plt.setp(ax1.get_yticklabels(), visible=False)
+ #   plt.setp(ax2.get_yticklabels(), visible=False)
 
     
-    ax1.set_xticks(lead_time_sfc[:(Xmax)])
-    ax2.set_xticks(lead_time_sfc[:(Xmax)])
-    ax1.set_xlim([-0.5,Xmax-0.5])
-    ax1.set_ylim([-0.5,0.5])
+#    ax1.set_xticks(lead_time_sfc[:(Xmax)])
+ #   ax2.set_xticks(lead_time_sfc[:(Xmax)])
+ #   ax1.set_xlim([-0.5,Xmax-0.5])
+  #  ax1.set_ylim([-0.5,0.5])
     
-    ax2.set_xlim([-0.5,Xmax-0.5])
-    ax2.set_ylim([-0.5,0.5])
+#    ax2.set_xlim([-0.5,Xmax-0.5])
+ #   ax2.set_ylim([-0.5,0.5])
 
-    ax1.set_xticks(np.arange(0,Xmax,6))
-    ax2.set_xticks(np.arange(0,Xmax,6))
+   # ax1.set_xticks(np.arange(0,Xmax,6))
+#    ax2.set_xticks(np.arange(0,Xmax,6))
     if tid == '18':
         dates = pvert.dates_plt_18(h_p18, m_p18, d_p18, y_p18, ini_day)
     if tid == '00':
         dates = pvert.dates_plt_00(h_p18, m_p18, d_p18, y_p18, ini_day)
 #    ax2.set_xticklabels(dates, rotation = 25, fontsize = 24)
-    ax1.tick_params(axis='both', which= 'major', labelsize=24)
-    ax2.tick_params(axis='both', which= 'major', labelsize=24)
+#    ax1.tick_params(axis='both', which= 'major', labelsize=24)
+#    ax2.tick_params(axis='both', which= 'major', labelsize=24)
  #   ax2.set_xlabel('time', fontsize = 26)
     
 #    mpl.style.use('classic')
-    ax3 = plt.subplot(gs[9:10,:])
-    plt.setp(ax3.get_yticklabels(), visible=False)
-    ax3.spines['right'].set_visible(False)
-    ax3.spines['top'].set_visible(False)
-    ax3.spines['left'].set_visible(False)
-    ax3.set_xticks(lead_time_sfc[:(Xmax)])
-    ax3.set_xlim([-0.5,Xmax-0.5])
-    ax2.set_ylim([-0.00005,0.00005])
-    ax3.set_xticks(np.arange(0,Xmax,6))
-    ax3.set_xticklabels(dates, rotation = 25, fontsize = tick_fs)
-    ax3.set_xlabel('time', fontsize = label_fs)
+#    ax3 = plt.subplot(gs[9:10,:])
+#    ax3 = plt.subplot(gs[8:9,:])
+ #   plt.setp(ax3.get_yticklabels(), visible=False)
+  #  ax3.spines['right'].set_visible(False)
+   # ax3.spines['top'].set_visible(False)
+    #ax3.spines['left'].set_visible(False)
+#    ax3.set_xticks(lead_time_sfc[:(Xmax)])
+ #   ax3.set_xlim([-0.5,Xmax-0.5])
+  #  ax2.set_ylim([-0.00005,0.00005])
+   # ax3.set_xticks(np.arange(0,Xmax,6))
+    #ax3.set_xticklabels(dates, rotation = 25, fontsize = tick_fs)
+#    ax3.set_xlabel('time', fontsize = label_fs)
+    
+#    ax3 = plt.subplot(gs[8:9,:])
+    plt.setp(ax2.get_yticklabels(), visible=False)
+    ax2.spines['right'].set_visible(False)
+    ax2.spines['top'].set_visible(False)
+    ax2.spines['left'].set_visible(False)
+    ax2.set_xticks(lead_time_sfc[:(Xmax)])
+    ax2.set_xlim([-0.5,Xmax-0.5])
+    ax2.set_ylim([-0.5,0.5])
+    ax2.set_xticks(np.arange(0,Xmax,6))
+    ax2.set_xticklabels(dates, rotation = 25, fontsize = tick_fs)
+    ax2.set_xlabel('time', fontsize = label_fs)
 # title
     ax0.set_title(title, fontsize=fontsize, color =blue )
 # tight layout
-    plt.tight_layout()      
+#    plt.tight_layout()      
