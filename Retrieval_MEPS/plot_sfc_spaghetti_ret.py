@@ -53,7 +53,7 @@ def spaghetti_sfc_dofe(lead_time_sfc, variable, dofence_60, #time_sfc,
            linestyle = '-', label='_nolegend_')
     ax.plot(lead_time_sfc[1][:Xmax], variable[1][:Xmax], color = memb_col,
            linestyle = '-', label = 'ensemble member')
-    ax.plot(lead_time_sfc[0][:Xmax], variable[0][:Xmax], 'k', linewidth = 4, label = 'best guess')
+    ax.plot(lead_time_sfc[0][:Xmax], variable[0][:Xmax], 'k', linewidth = 4, label = 'deterministic')
     
 ## retrieval
     ax.plot(np.arange(0, np.asarray(acc_ret).shape[0]/60,1/60), acc_ret, linestyle = (0, (3, 1, 1, 1)), 
@@ -112,7 +112,7 @@ def spaghetti_sfc_dofe_Morten(lead_time_sfc, variable, dofence_60, #time_sfc,
            linestyle = '-', label='_nolegend_')
     ax.plot(lead_time_sfc[1][:Xmax], variable[1][:Xmax], color = memb_col,
            linestyle = '-', label = 'ensemble member')
-    ax.plot(lead_time_sfc[0][:Xmax], variable[0][:Xmax], 'k', linewidth = 4, label = 'best guess')
+    ax.plot(lead_time_sfc[0][:Xmax], variable[0][:Xmax], 'k', linewidth = 4, label = 'deterministic')
 
 
 
@@ -173,7 +173,7 @@ def spaghetti_sfc_dofe_wind(lead_time_sfc, lead_time_em, variable, dofence_60, #
            linestyle = '-', label='_nolegend_')
     ax0.plot(lead_time_em[1][:Xmax], variable[1][:Xmax], color = memb_col,
            linestyle = '-', label = 'ensemble member')
-    ax0.plot(lead_time_em[0][:Xmax], variable[0][:Xmax], 'k', linewidth = 4, label = 'best guess')
+    ax0.plot(lead_time_em[0][:Xmax], variable[0][:Xmax], 'k', linewidth = 4, label = 'control run')
     
 ## retrieval
     ax0.plot(np.arange(0, np.asarray(acc_ret).shape[0]/60,1/60), acc_ret, linestyle = (0, (3, 1, 1, 1)), 

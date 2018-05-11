@@ -13,9 +13,9 @@ import plot_sfc_spaghetti_ret as spagh
 date_blue = np.array([1,74,159])/255.
 memb_col = np.array([99,99,99])/255.       # ensemble member color
 
-fontsize = 26.
-tick_fs = fontsize-2
-label_fs = fontsize
+fontsize = 26.+2
+tick_fs = fontsize-2+2
+label_fs = fontsize+2
 
 yl1 = ['', 0.2, '', 0.6, '',1. ,'',1.4,'',1.8,
           '',2.2,'',2.6,'', 3.]
@@ -67,8 +67,10 @@ def add_colorbar(fig,im0,ax0,cb_ticks,var_label):
 def labels_x(ax,xticks,xlabels):  
 # labels
     ax.set_xticks(xticks)
+    ax.get_xaxis().set_tick_params(width=5)
     ax.set_xticklabels(xlabels, fontsize = tick_fs,rotation = 25.)
-    ax.set_xlabel('time [hours]', fontsize = label_fs)
+#    ax.set_xlabel('time [hours]', fontsize = label_fs)
+    ax.set_xlabel('time', fontsize = label_fs)
 
 
 
@@ -95,7 +97,10 @@ def plt_ce_image2(ax0,time, height, variable, levels, v_min, v_max, xmax, ymax, 
     plt.tight_layout(pad=1.4,  h_pad=2.5)
     
 # labels 
-    labels_x(ax0,xticks,xlabel)
+#    labels_x(ax0,xticks,xlabel)
+    ax0.set_xticks(xticks)
+    ax0.get_xaxis().set_tick_params(width=5)
+    ax0.set_xticklabels([])#, fontsize = tick_fs,rotation = 25.)
     labels_y(ax0,yticks,yl1,'height [km]')
     
     return(im0);
