@@ -13,9 +13,9 @@ import plot_sfc_spaghetti_ret as spagh
 date_blue = np.array([1,74,159])/255.
 memb_col = np.array([99,99,99])/255.       # ensemble member color
 
-fontsize = 26.+2
-tick_fs = fontsize-2+2
-label_fs = fontsize+2
+fontsize = 26.+8
+tick_fs = fontsize-2+4
+label_fs = fontsize+4
 
 yl1 = ['', 0.2, '', 0.6, '',1. ,'',1.4,'',1.8,
           '',2.2,'',2.6,'', 3.]
