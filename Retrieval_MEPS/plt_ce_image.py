@@ -13,7 +13,7 @@ import plot_sfc_spaghetti_ret as spagh
 date_blue = np.array([1,74,159])/255.
 memb_col = np.array([99,99,99])/255.       # ensemble member color
 
-fontsize = 26.+8
+fontsize = 26.+4
 tick_fs = fontsize-2+4
 label_fs = fontsize+4
 
@@ -53,11 +53,11 @@ def plt_ce_image(fig,ax0,time, height, variable, levels, v_min, v_max, xmax, yma
 
 # tight layout
     plt.tight_layout(pad=1.4,  h_pad=2.5)
-
-
+    
+    return(im0);
 
 def add_colorbar(fig,im0,ax0,cb_ticks,var_label):
-    cbar = fig.colorbar(im0, ax=ax0, ticks = cb_ticks, orientation = 'horizontal', pad=0.20, fraction = 0.08, shrink = 2.5)
+    cbar = fig.colorbar(im0, ax=ax0, ticks = cb_ticks, orientation = 'vertical')#, pad=0.20, fraction = 0.08, shrink = 2.5)
     cbar.ax.tick_params(labelsize= tick_fs-2)
     cbar.ax.set_xlabel(var_label,fontsize = label_fs-2)
 
