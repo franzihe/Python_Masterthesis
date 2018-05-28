@@ -354,13 +354,15 @@ def plt_scatter_diff(diff, lead_time_sfc, tot,colors, var,label):
         ax.set_xticks(np.arange(-8,9))
         ax.set_xticklabels([-8,'' , -6,'', -4,'',-2,'', 0, '',2,'',4,'',6,'',8], fontsize=spagh.tick_fs)
         # title
-        ax.set_title('Sea Level Pressure [hPa]', fontsize=spagh.fontsize)
+        ax.set_title('Sea Level Pressure', fontsize=spagh.fontsize)
+        ax.set_xlabel('Difference [hPa]' , fontsize=spagh.label_fs)
     elif var == 'PP':
         # xaxis
         ax.set_xlim(-15,45)
         ax.set_xticks(np.arange(-15,45,5))
         ax.set_xticklabels(['', -10, '', 0, '', 10, '', 20, '',30, '',40],fontsize = spagh.tick_fs)
-        ax.set_title('Precipitation amount [mm]' , fontsize=spagh.fontsize)
+        ax.set_title('Precipitation amount' , fontsize=spagh.fontsize)
+        ax.set_xlabel('Difference [mm]' , fontsize=spagh.label_fs)
 
         
 # tight layout
