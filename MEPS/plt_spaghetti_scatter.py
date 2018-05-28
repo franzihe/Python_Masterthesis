@@ -480,7 +480,8 @@ def plt_all_day_diff(Difference,lead_time_sfc,tot,var,day_range,
         ax.set_xlim(-15,45)
         ax.set_xticks(np.arange(-15,45,5))
         ax.set_xticklabels(['', -10, '', 0, '', 10, '', 20, '',30, '',40],fontsize = spagh.tick_fs)
-        ax.set_title('Precipitation amount [mm]' , fontsize=spagh.fontsize)
+        ax.set_title('Precipitation amount' , fontsize=spagh.fontsize)
+        ax.set_xlabel('Difference [mm]', fontsize=spagh.fontsize)
 
 # tight layout
     plt.tight_layout()
