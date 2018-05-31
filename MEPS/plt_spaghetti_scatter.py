@@ -494,7 +494,7 @@ def plt_scatter_all_days(obs_Pres,Pressure_all_day,var,day_range, in_day, cal_mo
                               cal_year,in_hh,x_obs,intercept_obs,gradient_obs):
     fig = plt.figure(figsize=(10,10))
     ax = fig.add_subplot(111)
-
+    
     for i in day_range:
         plt.scatter(np.asarray(obs_Pres)[i,:],
                 np.asarray(Pressure_all_day[0])[i,:np.asarray(obs_Pres).shape[1]],color=colors[i],
@@ -511,41 +511,97 @@ def plt_scatter_all_days(obs_Pres,Pressure_all_day,var,day_range, in_day, cal_mo
             ax.plot([0, 360], [intercept_obs[i],intercept_obs[i] + gradient_obs[i]*360],  
                     color =colors[i],linewidth = 3.,
             alpha=0.8,)
+            if (day_range.shape[0] == 3):
+                if i == 1 or i ==2 or i==3:
+                    y_loc = 0.25-(i-1)/12
+                elif i == 4 or i == 5 or i== 6:
+                    y_loc = 0.25-(i-4)/12
+            else:
+                y_loc = 0.95-i/12
+            ax.text(0.03,y_loc, 'y = {:.2f} + {:.2f}x'.format(intercept_obs[i], gradient_obs[i]),
+                    verticalalignment ='top', horizontalalignment='left', color = colors[i],
+                     transform = ax.transAxes, fontsize = spagh.label_fs-4,
+                     bbox={'facecolor':'white','alpha':.8,'pad':10})
         elif var == 'WS':
             ax.plot([0, 30], [intercept_obs[i],intercept_obs[i] + gradient_obs[i]*30],  
                     color =colors[i],linewidth = 3.,
             alpha=0.8,)
+            if (day_range.shape[0] == 3):
+                if i == 1 or i ==2 or i==3:
+                    y_loc = 0.25-(i-1)/12
+                elif i == 4 or i == 5 or i== 6:
+                    y_loc = 0.25-(i-4)/12
+            else:
+                y_loc = 0.95-i/12
+            ax.text(0.58,y_loc, 'y = {:.2f} + {:.2f}x'.format(intercept_obs[i], gradient_obs[i]),
+                   verticalalignment ='top', horizontalalignment='left', color = colors[i],
+                   transform = ax.transAxes, fontsize = spagh.label_fs-4,
+                   bbox={'facecolor':'white','alpha':.8,'pad':10})
         elif var == 'T2':
             ax.plot([-9,6], [intercept_obs[i] + gradient_obs[i]*(-9), intercept_obs[i] + gradient_obs[i]*6],  
                     color =colors[i],linewidth = 3.,
-            alpha=0.8,)
+            alpha=0.8)
+            if (day_range.shape[0] == 3):
+                if i == 1 or i ==2 or i==3:
+                    y_loc = 0.95-(i-1)/12
+                elif i == 4 or i == 5 or i== 6:
+                    y_loc = 0.95-(i-4)/12
+            else:
+                y_loc = 0.95-i/12
+            ax.text(0.03,y_loc, 'y = {:.2f} + {:.2f}x'.format(intercept_obs[i], gradient_obs[i]),
+                    verticalalignment ='top', horizontalalignment='left', color = colors[i],
+                     transform = ax.transAxes, fontsize = spagh.label_fs-4,
+                     bbox={'facecolor':'white','alpha':.8,'pad':10})
         elif var == 'SP':
             ax.plot([975,1040], [intercept_obs[i] + gradient_obs[i]*(975), intercept_obs[i] + gradient_obs[i]*1040],  
                     color =colors[i],linewidth = 3.,
             alpha=0.8,)
+            if (day_range.shape[0] == 3):
+                if i == 1 or i ==2 or i==3:
+                    y_loc = 0.95-(i-1)/12
+                elif i == 4 or i == 5 or i== 6:
+                    y_loc = 0.95-(i-4)/12
+            else:
+                y_loc = 0.95-i/12
+            ax.text(0.03,y_loc, 'y = {:.2f} + {:.2f}x'.format(intercept_obs[i], gradient_obs[i]),
+                    verticalalignment ='top', horizontalalignment='left', color = colors[i],
+                     transform = ax.transAxes, fontsize = spagh.label_fs-4,
+                     bbox={'facecolor':'white','alpha':.8,'pad':10})
         elif var == 'PP':
             ax.plot([0,90], [intercept_obs[i],intercept_obs[i] + gradient_obs[i]*90],  
                     color =colors[i],linewidth = 3.,
             alpha=0.8,)
-#        ax.plot(x_obs[i], intercept_obs[i] + gradient_obs[i]*x_obs[i],  
-#                    color =colors[i],linewidth = 5.,
-#            alpha=0.8, )
-        ax.text(0.55,0.58-i/12, 'y = {:.2f} + {:.2f}x'.format(intercept_obs[i], gradient_obs[i]),
-            verticalalignment ='top', horizontalalignment='left', color = colors[i],
-             transform = ax.transAxes, fontsize = spagh.label_fs-4,
-             bbox={'facecolor':'white','alpha':.8,'pad':10})
+            if (day_range.shape[0] == 3):
+                if i == 1 or i ==2 or i==3:
+                    y_loc = 0.25-(i-1)/12
+                elif i == 4 or i == 5 or i== 6:
+                    y_loc = 0.25-(i-4)/12
+            else:
+                y_loc = 0.95-i/12
+            ax.text(0.6,y_loc, 'y = {:.2f} + {:.2f}x'.format(intercept_obs[i], gradient_obs[i]),
+                   verticalalignment ='top', horizontalalignment='left', color = colors[i],
+                   transform = ax.transAxes, fontsize = spagh.label_fs-4,
+                   bbox={'facecolor':'white','alpha':.8,'pad':10})
+
+        
         
 ### fine tuning
     lgd = ax.legend(loc='center left',bbox_to_anchor=(1, .75),
-         fancybox=True, shadow=True, #ncol=3, 
-          fontsize=spagh.label_fs-4)
+           fancybox=True, shadow=True, #ncol=3, 
+            fontsize=spagh.label_fs-4)
     lgd.set_title( title= 'initialised:')#, fontsize=spagh.label)
     lgd.get_title().set_fontsize(spagh.label_fs-4)
     plt.setp(lgd.get_texts(), color=spagh.blue)
-
-
     frame = lgd.get_frame()
     frame.set_facecolor('white')
+    
+#         lgd2 = ax.legend([reg], loc='upper left', fontsize=spagh.label_fs-4	)
+#         frame2 = lgd2.get_frame()
+#         frame2.set_facecolor('white')
+#            
+
+
+    
     
     if var == 'WD':
         ax.plot([0, 360], [0, 360.], linestyle='-',color=spagh.memb_col) 
