@@ -491,7 +491,7 @@ def plt_all_day_diff(Difference,lead_time_sfc,tot,var,day_range,
 
 
 def plt_scatter_all_days(obs_Pres,Pressure_all_day,var,day_range, in_day, cal_mon,
-                              cal_year,in_hh):
+                              cal_year,in_hh,x_obs,intercept_obs,gradient_obs):
     fig = plt.figure(figsize=(10,10))
     ax = fig.add_subplot(111)
 
@@ -507,6 +507,33 @@ def plt_scatter_all_days(obs_Pres,Pressure_all_day,var,day_range, in_day, cal_mo
                 np.asarray(Pressure_all_day[ens_memb])[i,:np.asarray(obs_Pres).shape[1]],color=colors[i],
                alpha = 0.7, s = 150,
                       label='_nolegend_')
+        if var == 'WD':
+            ax.plot([0, 360], [intercept_obs[i],intercept_obs[i] + gradient_obs[i]*360],  
+                    color =colors[i],linewidth = 3.,
+            alpha=0.8,)
+        elif var == 'WS':
+            ax.plot([0, 30], [intercept_obs[i],intercept_obs[i] + gradient_obs[i]*30],  
+                    color =colors[i],linewidth = 3.,
+            alpha=0.8,)
+        elif var == 'T2':
+            ax.plot([-9,6], [intercept_obs[i] + gradient_obs[i]*(-9), intercept_obs[i] + gradient_obs[i]*6],  
+                    color =colors[i],linewidth = 3.,
+            alpha=0.8,)
+        elif var == 'SP':
+            ax.plot([975,1040], [intercept_obs[i] + gradient_obs[i]*(975), intercept_obs[i] + gradient_obs[i]*1040],  
+                    color =colors[i],linewidth = 3.,
+            alpha=0.8,)
+        elif var == 'PP':
+            ax.plot([0,90], [intercept_obs[i],intercept_obs[i] + gradient_obs[i]*90],  
+                    color =colors[i],linewidth = 3.,
+            alpha=0.8,)
+#        ax.plot(x_obs[i], intercept_obs[i] + gradient_obs[i]*x_obs[i],  
+#                    color =colors[i],linewidth = 5.,
+#            alpha=0.8, )
+        ax.text(0.55,0.58-i/12, 'y = {:.2f} + {:.2f}x'.format(intercept_obs[i], gradient_obs[i]),
+            verticalalignment ='top', horizontalalignment='left', color = colors[i],
+             transform = ax.transAxes, fontsize = spagh.label_fs-4,
+             bbox={'facecolor':'white','alpha':.8,'pad':10})
         
 ### fine tuning
     lgd = ax.legend(loc='center left',bbox_to_anchor=(1, .75),
