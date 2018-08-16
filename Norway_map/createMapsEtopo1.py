@@ -142,19 +142,19 @@ def makeMap(lonStart,lonEnd,latStart,latEnd,name,stLon,stLat,zoom):
      #       ha='left',va='bottom',color='orange')
 
 
-    if zoom != 'zoom':
-    
-    ### plot MEPS area
-        for i in range(0,lato.shape[0],12):
-            xs, ys = map(lono[i], lato[i])
-            map.plot(xs,ys, color = 'orange', marker = 'o', markersize = 10, linestyle = '-', linewidth = 10)
-        for i in range(0,lato2.shape[0],12):
-            xs2, ys2 = map(lono2[i], lato2[i])
-            map.plot(xs2,ys2, color = 'orange', marker = 'o', markersize = 10, linestyle = '-', linewidth = 10)
-
-        xs, ys = map(lono[739], lato[739])
-        map.plot(xs,ys, color = 'orange', marker ='o', markersize = 10, linestyle = '-', linewidth = 10, label = 'MEPS domain')
-        lgd = plt.legend(loc='lower left',fontsize=18)
+#     if zoom != 'zoom':
+#     
+#     ### plot MEPS area
+#         for i in range(0,lato.shape[0],12):
+#             xs, ys = map(lono[i], lato[i])
+#             map.plot(xs,ys, color = 'orange', marker = 'o', markersize = 10, linestyle = '-', linewidth = 10)
+#         for i in range(0,lato2.shape[0],12):
+#             xs2, ys2 = map(lono2[i], lato2[i])
+#             map.plot(xs2,ys2, color = 'orange', marker = 'o', markersize = 10, linestyle = '-', linewidth = 10)
+# 
+#         xs, ys = map(lono[739], lato[739])
+#         map.plot(xs,ys, color = 'orange', marker ='o', markersize = 10, linestyle = '-', linewidth = 10, label = 'MEPS domain')
+#         lgd = plt.legend(loc='lower left',fontsize=18)
 
     #plt.title('Area %s'%(name))
     #plotfile='figures/map_'+str(name)+'.pdf'

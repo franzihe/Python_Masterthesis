@@ -49,7 +49,7 @@ colors = [no1, no2, no3, no4, no5, no6, no7]
 
 def plt_variable(lead_time_sfc,wd_MEPS,WD,time_EM_mean, model_var_mean,var,xdays,title):
     
-    fig = plt.figure(figsize=(20,7))
+    fig = plt.figure(figsize=(20,6))
     ax = plt.axes()
 # Vertical line to show end of day
     ax.axvline(0,color = spagh.vert_col, linewidth = 3)
@@ -75,10 +75,10 @@ def plt_variable(lead_time_sfc,wd_MEPS,WD,time_EM_mean, model_var_mean,var,xdays
             linestyle = '--', label = 'ensemble mean') 
 
 ### fine tuning
-    lgd = ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.37),
-          fancybox=True, shadow=True, ncol=3, fontsize=spagh.label_fs)
-    frame = lgd.get_frame()
-    frame.set_facecolor('white')
+#     lgd = ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.37),
+#           fancybox=True, shadow=True, ncol=3, fontsize=spagh.label_fs)
+#     frame = lgd.get_frame()
+#     frame.set_facecolor('white')
 
 # xaxis
     a = lead_time_sfc[0][0:48]
@@ -137,7 +137,7 @@ def plt_variable(lead_time_sfc,wd_MEPS,WD,time_EM_mean, model_var_mean,var,xdays
 # tight layout
     plt.tight_layout()
     
-    return(lgd)
+#     return(lgd)
 
 
 
@@ -182,7 +182,7 @@ def plt_scatter_obs_model(tot, precipitation_amount_acc,colors,var,label):
     
     
     if var == 'WD':
-        ax.plot([0, 360], [0, 360.], linestyle='-',color=spagh.memb_col) 
+        ax.plot([0, 360], [0, 360.], linestyle='-',linewidth=3,color=spagh.memb_col) 
         # Horizontal line to show Wind direction
         ax.axhline(90,color=spagh.vert_col, linewidth= 3)
         ax.axhline(180,color=spagh.vert_col, linewidth= 3)
@@ -204,7 +204,7 @@ def plt_scatter_obs_model(tot, precipitation_amount_acc,colors,var,label):
         # title
         ax.set_title('Wind direction', fontsize=spagh.fontsize) 
     elif var == 'WS':
-        ax.plot([0, 30], [0, 30.], linestyle='-',color=spagh.memb_col) 
+        ax.plot([0, 30], [0, 30.], linestyle='-',linewidth=3,color=spagh.memb_col) 
         # yaxis
         ax.set_ylim(0,30)
         ax.set_yticks(np.arange(0,32.5,2.5))
@@ -216,7 +216,7 @@ def plt_scatter_obs_model(tot, precipitation_amount_acc,colors,var,label):
         # title
         ax.set_title('Wind speed [m$\,$s$^{-1}$]', fontsize=spagh.fontsize) 
     elif var == 'T2':
-        ax.plot([-9,6], [-9,6], linestyle='-',color=spagh.memb_col) 
+        ax.plot([-9,6], [-9,6], linestyle='-',linewidth=3,color=spagh.memb_col) 
         ax.axhline(0,color=spagh.vert_col, linewidth= 3)
         ax.axvline(0,color=spagh.vert_col, linewidth= 3)
         # yaxis
@@ -233,7 +233,7 @@ def plt_scatter_obs_model(tot, precipitation_amount_acc,colors,var,label):
         # title
         ax.set_title('Air Temperature [$^\circ$C]', fontsize=spagh.fontsize) 
     elif var == 'SP':
-        ax.plot([975,1040], [975,1040], linestyle='-',color=spagh.memb_col) 
+        ax.plot([975,1040], [975,1040], linestyle='-',linewidth=3,color=spagh.memb_col) 
         # yaxis
         ax.set_ylim(975, 1040)
         ax.set_yticks(np.arange(975,1045,5))
@@ -245,7 +245,7 @@ def plt_scatter_obs_model(tot, precipitation_amount_acc,colors,var,label):
         # title
         ax.set_title('Sea Level Pressure [hPa]', fontsize=spagh.fontsize)
     elif var == 'PP':
-        ax.plot([0,90], [0,90], linestyle = '-', color=spagh.memb_col)
+        ax.plot([0,90], [0,90], linestyle = '-',linewidth=3, color=spagh.memb_col)
         # yaxis
         ax.set_ylim(0,80)
         ax.set_yticks(np.arange(0,90,5))
@@ -491,7 +491,7 @@ def plt_all_day_diff(Difference,lead_time_sfc,tot,var,day_range,
 
 
 def plt_scatter_all_days(obs_Pres,Pressure_all_day,var,day_range, in_day, cal_mon,
-                              cal_year,in_hh,x_obs,intercept_obs,gradient_obs):
+                              cal_year,in_hh,x_obs,intercept_obs,gradient_obs,r_value):
     fig = plt.figure(figsize=(10,10))
     ax = fig.add_subplot(111)
     
@@ -509,7 +509,7 @@ def plt_scatter_all_days(obs_Pres,Pressure_all_day,var,day_range, in_day, cal_mo
                       label='_nolegend_')
         if var == 'WD':
             ax.plot([0, 360], [intercept_obs[i],intercept_obs[i] + gradient_obs[i]*360],  
-                    color =colors[i],linewidth = 3.,
+                    color =colors[i],linewidth = 1.5,
             alpha=0.8,)
             if (day_range.shape[0] == 3):
                 if i == 1 or i ==2 or i==3:
@@ -518,13 +518,13 @@ def plt_scatter_all_days(obs_Pres,Pressure_all_day,var,day_range, in_day, cal_mo
                     y_loc = 0.25-(i-4)/12
             else:
                 y_loc = 0.95-i/12
-            ax.text(0.03,y_loc, 'y = {:.2f} + {:.2f}x'.format(intercept_obs[i], gradient_obs[i]),
+            ax.text(0.03,y_loc, 'y = {:.2f} + {:.2f}x, R = {:.2f}'.format(intercept_obs[i], gradient_obs[i], r_value[i]),
                     verticalalignment ='top', horizontalalignment='left', color = colors[i],
                      transform = ax.transAxes, fontsize = spagh.label_fs-4,
                      bbox={'facecolor':'white','alpha':.8,'pad':10})
         elif var == 'WS':
             ax.plot([0, 30], [intercept_obs[i],intercept_obs[i] + gradient_obs[i]*30],  
-                    color =colors[i],linewidth = 3.,
+                    color =colors[i],linewidth = 1.5,
             alpha=0.8,)
             if (day_range.shape[0] == 3):
                 if i == 1 or i ==2 or i==3:
@@ -533,13 +533,13 @@ def plt_scatter_all_days(obs_Pres,Pressure_all_day,var,day_range, in_day, cal_mo
                     y_loc = 0.25-(i-4)/12
             else:
                 y_loc = 0.95-i/12
-            ax.text(0.58,y_loc, 'y = {:.2f} + {:.2f}x'.format(intercept_obs[i], gradient_obs[i]),
+            ax.text(0.38,y_loc, 'y = {:.2f} + {:.2f}x, R = {:.2f}'.format(intercept_obs[i], gradient_obs[i], r_value[i]),
                    verticalalignment ='top', horizontalalignment='left', color = colors[i],
                    transform = ax.transAxes, fontsize = spagh.label_fs-4,
                    bbox={'facecolor':'white','alpha':.8,'pad':10})
         elif var == 'T2':
             ax.plot([-9,6], [intercept_obs[i] + gradient_obs[i]*(-9), intercept_obs[i] + gradient_obs[i]*6],  
-                    color =colors[i],linewidth = 3.,
+                    color =colors[i],linewidth = 1.5,
             alpha=0.8)
             if (day_range.shape[0] == 3):
                 if i == 1 or i ==2 or i==3:
@@ -548,13 +548,13 @@ def plt_scatter_all_days(obs_Pres,Pressure_all_day,var,day_range, in_day, cal_mo
                     y_loc = 0.95-(i-4)/12
             else:
                 y_loc = 0.95-i/12
-            ax.text(0.03,y_loc, 'y = {:.2f} + {:.2f}x'.format(intercept_obs[i], gradient_obs[i]),
+            ax.text(0.03,y_loc, 'y = {:.2f} + {:.2f}x, R = {:.2f}'.format(intercept_obs[i], gradient_obs[i], r_value[i]),
                     verticalalignment ='top', horizontalalignment='left', color = colors[i],
                      transform = ax.transAxes, fontsize = spagh.label_fs-4,
                      bbox={'facecolor':'white','alpha':.8,'pad':10})
         elif var == 'SP':
             ax.plot([975,1040], [intercept_obs[i] + gradient_obs[i]*(975), intercept_obs[i] + gradient_obs[i]*1040],  
-                    color =colors[i],linewidth = 3.,
+                    color =colors[i],linewidth = 1.5,
             alpha=0.8,)
             if (day_range.shape[0] == 3):
                 if i == 1 or i ==2 or i==3:
@@ -563,13 +563,13 @@ def plt_scatter_all_days(obs_Pres,Pressure_all_day,var,day_range, in_day, cal_mo
                     y_loc = 0.95-(i-4)/12
             else:
                 y_loc = 0.95-i/12
-            ax.text(0.03,y_loc, 'y = {:.2f} + {:.2f}x'.format(intercept_obs[i], gradient_obs[i]),
+            ax.text(0.03,y_loc, 'y = {:.2f} + {:.2f}x, R = {:.2f}'.format(intercept_obs[i], gradient_obs[i], r_value[i]),
                     verticalalignment ='top', horizontalalignment='left', color = colors[i],
                      transform = ax.transAxes, fontsize = spagh.label_fs-4,
                      bbox={'facecolor':'white','alpha':.8,'pad':10})
         elif var == 'PP':
             ax.plot([0,90], [intercept_obs[i],intercept_obs[i] + gradient_obs[i]*90],  
-                    color =colors[i],linewidth = 3.,
+                    color =colors[i],linewidth = 1.5,
             alpha=0.8,)
             if (day_range.shape[0] == 3):
                 if i == 1 or i ==2 or i==3:
@@ -578,7 +578,7 @@ def plt_scatter_all_days(obs_Pres,Pressure_all_day,var,day_range, in_day, cal_mo
                     y_loc = 0.25-(i-4)/12
             else:
                 y_loc = 0.95-i/12
-            ax.text(0.6,y_loc, 'y = {:.2f} + {:.2f}x'.format(intercept_obs[i], gradient_obs[i]),
+            ax.text(0.4,y_loc, 'y = {:.2f} + {:.2f}x, R = {:.2f}'.format(intercept_obs[i], gradient_obs[i], r_value[i]),
                    verticalalignment ='top', horizontalalignment='left', color = colors[i],
                    transform = ax.transAxes, fontsize = spagh.label_fs-4,
                    bbox={'facecolor':'white','alpha':.8,'pad':10})
@@ -586,15 +586,15 @@ def plt_scatter_all_days(obs_Pres,Pressure_all_day,var,day_range, in_day, cal_mo
         
         
 ### fine tuning
-    lgd = ax.legend(loc='center left',bbox_to_anchor=(1, .75),
-           fancybox=True, shadow=True, #ncol=3, 
-            fontsize=spagh.label_fs-4)
-    lgd.set_title( title= 'initialised:')#, fontsize=spagh.label)
-    lgd.get_title().set_fontsize(spagh.label_fs-4)
-    plt.setp(lgd.get_texts(), color=spagh.blue)
-    frame = lgd.get_frame()
-    frame.set_facecolor('white')
-    
+#     lgd = ax.legend(loc='center left',bbox_to_anchor=(1, .75),
+#            fancybox=True, shadow=True, #ncol=3, 
+#             fontsize=spagh.label_fs-4)
+#     lgd.set_title( title= 'initialised:')#, fontsize=spagh.label)
+#     lgd.get_title().set_fontsize(spagh.label_fs-4)
+#     plt.setp(lgd.get_texts(), color=spagh.blue)
+#     frame = lgd.get_frame()
+#     frame.set_facecolor('white')
+#     
 #         lgd2 = ax.legend([reg], loc='upper left', fontsize=spagh.label_fs-4	)
 #         frame2 = lgd2.get_frame()
 #         frame2.set_facecolor('white')
@@ -604,7 +604,7 @@ def plt_scatter_all_days(obs_Pres,Pressure_all_day,var,day_range, in_day, cal_mo
     
     
     if var == 'WD':
-        ax.plot([0, 360], [0, 360.], linestyle='-',color=spagh.memb_col) 
+        ax.plot([0, 360], [0, 360.], linestyle='-',linewidth=3,color=spagh.memb_col) 
         # Horizontal line to show Wind direction
         ax.axhline(90,color=spagh.vert_col, linewidth= 3)
         ax.axhline(180,color=spagh.vert_col, linewidth= 3)
@@ -626,7 +626,7 @@ def plt_scatter_all_days(obs_Pres,Pressure_all_day,var,day_range, in_day, cal_mo
         # title
         ax.set_title('Wind direction', fontsize=spagh.fontsize) 
     elif var == 'WS':
-        ax.plot([0, 30], [0, 30.], linestyle='-',color=spagh.memb_col) 
+        ax.plot([0, 30], [0, 30.], linestyle='-',linewidth=3,color=spagh.memb_col) 
         # yaxis
         ax.set_ylim(0,30)
         ax.set_yticks(np.arange(0,32.5,2.5))
@@ -638,7 +638,7 @@ def plt_scatter_all_days(obs_Pres,Pressure_all_day,var,day_range, in_day, cal_mo
         # title
         ax.set_title('Wind speed [m$\,$s$^{-1}$]', fontsize=spagh.fontsize) 
     elif var == 'T2':
-        ax.plot([-9,6], [-9,6], linestyle='-',color=spagh.memb_col) 
+        ax.plot([-9,6], [-9,6], linestyle='-',linewidth=3,color=spagh.memb_col) 
         ax.axhline(0,color=spagh.vert_col, linewidth= 3)
         ax.axvline(0,color=spagh.vert_col, linewidth= 3)
         # yaxis
@@ -655,7 +655,7 @@ def plt_scatter_all_days(obs_Pres,Pressure_all_day,var,day_range, in_day, cal_mo
         # title
         ax.set_title('Air Temperature [$^\circ$C]', fontsize=spagh.fontsize) 
     elif var == 'SP':
-        ax.plot([975,1040], [975,1040], linestyle='-',color=spagh.memb_col) 
+        ax.plot([975,1040], [975,1040], linestyle='-',linewidth=3,color=spagh.memb_col) 
         # yaxis
         ax.set_ylim(975, 1040)
         ax.set_yticks(np.arange(975,1045,5))
@@ -667,7 +667,7 @@ def plt_scatter_all_days(obs_Pres,Pressure_all_day,var,day_range, in_day, cal_mo
         # title
         ax.set_title('Sea Level Pressure [hPa]', fontsize=spagh.fontsize)
     elif var == 'PP':
-        ax.plot([0,90], [0,90], linestyle = '-', color=spagh.memb_col)
+        ax.plot([0,90], [0,90], linestyle = '-',linewidth=3, color=spagh.memb_col)
         # yaxis
         ax.set_ylim(0,80)
         ax.set_yticks(np.arange(0,90,5))
@@ -687,5 +687,5 @@ def plt_scatter_all_days(obs_Pres,Pressure_all_day,var,day_range, in_day, cal_mo
     # tight layout
     plt.tight_layout()
     
-    return(lgd);
+#    return(lgd);
 
